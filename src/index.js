@@ -1,11 +1,4 @@
-import React from 'react';
+import useForm from './useForm';
+import useStep from './useStep';
 
-function Welcome() {
-  return (
-    <div>
-      <p>Welcome to react-library-starter</p>
-    </div>
-  );
-}
-
-export default Welcome;
+export { useForm, useStep };
