@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:14.2.0
 
 COPY action.sh /action.sh
 
