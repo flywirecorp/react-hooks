@@ -10,6 +10,7 @@
     "lint": "eslint --ext .js ./src",
     "prettier": "prettier \"**/*.js\"",
     "storybook": "start-storybook",
+    "storybook:build": "build-storybook -o docs",
     "test": "jest --watchAll",
     "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand --watchAll",
     "test:once": "jest",

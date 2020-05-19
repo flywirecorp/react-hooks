@@ -3,6 +3,7 @@ build
 logs
 tmp
 dist
+docs
 
 .env
 .DS_Store
