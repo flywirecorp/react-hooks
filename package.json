@@ -1,0 +1,54 @@
+{
+  "name": "@flywire/react-hooks",
+  "version": "0.0.1",
+  "description": "A collection of Reacts hooks used in Flywire",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "rollup -c",
+    "check:format": "npm run prettier -- --list-different",
+    "format": "npm run prettier -- --write",
+    "lint": "eslint --ext .js ./src",
+    "prettier": "prettier \"**/*.js\"",
+    "storybook": "start-storybook -p 6006",
+    "test": "jest --watchAll",
+    "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand --watchAll",
+    "test:once": "jest",
+    "validate": "npm run check:format && npm run lint"
+  },
+  "license": "MIT",
+  "keywords": [
+    "rect",
+    "library"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/peertransfer/react-hooks.git"
+  },
+  "homepage": "https://github.com/peertransfer/react-hooks.git",
+  "devDependencies": {
+    "@babel/core": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "@babel/preset-react": "^7.9.4",
+    "@rollup/plugin-babel": "^5.0.0",
+    "@rollup/plugin-node-resolve": "^7.1.3",
+    "@storybook/addon-actions": "^5.3.18",
+    "@storybook/react": "^5.3.18",
+    "@testing-library/jest-dom": "^5.7.0",
+    "@testing-library/react": "^10.0.4",
+    "@testing-library/react-hooks": "^3.2.1",
+    "babel-loader": "^8.1.0",
+    "eslint": "^7.0.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-react-hooks": "^4.0.2",
+    "jest": "^26.0.1",
+    "jest-watch-typeahead": "^0.6.0",
+    "prettier": "^2.0.5",
+    "rollup": "^2.10.4",
+    "rollup-plugin-commonjs": "^10.1.0"
+  },
+  "peerDependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  }
+}
