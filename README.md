@@ -1,13 +1,13 @@
 # react-hooks
 
-react-hooks is a set of hooks used in in Flywire.
+react-hooks is a set of hooks used in Flywire.
 
 ## Installation
 
 Add the dependency to your `package.json`:
 
 ```javascript
-npm install --save @flywire/react-hooks
+npm i @flywire/react-hooks
 ```
 
 ## Create a new release
