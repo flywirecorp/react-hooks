@@ -1,6 +1,6 @@
 {
   "name": "@flywire/react-hooks",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A collection of Reacts hooks used in Flywire",
   "main": "src/index.js",
   "scripts": {
@@ -9,7 +9,7 @@
     "format": "npm run prettier -- --write",
     "lint": "eslint --ext .js ./src",
     "prettier": "prettier \"**/*.js\"",
-    "storybook": "start-storybook",
+    "storybook": "start-storybook -p 8080",
     "storybook:build": "build-storybook -o docs",
     "test": "jest --watchAll",
     "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand --watchAll",
