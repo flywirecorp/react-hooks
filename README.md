@@ -35,14 +35,3 @@ This will bump the `package.json` version, build a new bundle, commit, push the 
 
 Then create a PR and request the review from other project commiters. Once accepted and merged to master, execute `npm publish` from master branch.
 
-## Documentation
-
-[https://peertransfer.github.io/react-hooks/](https://peertransfer.github.io/react-hooks/)
-
-The documentation source is under the `stories` folder, we are using Storybook. 
-It is generated automatically and published to `gh-pages` after a merge with master.
-In development, just run:
-
-```
-> npm run storybook
-```
