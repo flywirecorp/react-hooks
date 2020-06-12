@@ -8,6 +8,16 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.0.5] - 2020-06-12
+
+### Changed
+
+- Add example using useToggle
+
+### Fixed
+
+- Export useToggle
+
 ## [0.0.4] - 2020-06-12
 
 ### Fixed
