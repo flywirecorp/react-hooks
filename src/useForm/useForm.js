@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 
 function useForm(initialValues = {}) {
   const [state, setState] = useState({
@@ -6,13 +6,13 @@ function useForm(initialValues = {}) {
     dirtyFields: {},
   });
 
-  const handleChange = useCallback((name, value) => {
-    setState(state => ({
+  function handleChange(name, value) {
+    setState({
       ...state,
       values: { ...state.values, [name]: value },
       dirtyFields: { ...state.dirtyFields, [name]: true },
-    }));
-  }, []);
+    });
+  }
 
   return { ...state, handleChange };
 }
