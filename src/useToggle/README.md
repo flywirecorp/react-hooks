@@ -21,3 +21,16 @@ const [on] = useToggle(false);
 | :--------------------------- |
 | Current state value          |
 | Function to update the state |
+
+#### Usage
+
+```jsx harmony
+import React from 'react';
+import { useToggle } from '@flywire/react-hooks';
+
+function App() {
+  const [on, toggle] = useToggle();
+
+  return <button onClick={toggle}>{on ? 'ON' : 'OFF'}</button>;
+}
+```

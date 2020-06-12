@@ -10,19 +10,19 @@ const { values, dirtyFields, handleChange } = useForm({});
 
 #### Config
 
-| Key                   | Description                                       |
-| :-------------------- | :------------------------------------------------ |
-| `defaultValues`       | Initial values of the fields. Default = {}        |
+| Key             | Description                                |
+| :-------------- | :----------------------------------------- |
+| `defaultValues` | Initial values of the fields. Default = {} |
 
 #### Return object
-| Key                   | Description                                       |
-| :-------------------- | :------------------------------------------------ |
-| `values`              | Field values                                      |
-| `dirtyFields`         | Fields modified by the user                       |
-| `handleChange`        | Callback for persisting the field's value         |
 
+| Key            | Description                               |
+| :------------- | :---------------------------------------- |
+| `values`       | Field values                              |
+| `dirtyFields`  | Fields modified by the user               |
+| `handleChange` | Callback for persisting the field's value |
 
-####  Usage
+#### Usage
 
 ```jsx harmony
 import React from 'react';
@@ -48,3 +48,4 @@ function App() {
     </form>
   );
 }
+```
