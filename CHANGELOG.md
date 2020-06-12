@@ -8,6 +8,12 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.0.3] - 2020-06-12
+
+### Added
+
+- useToggle hook
+
 ## [0.0.2] - 2020-05-20
 
 ### Added
