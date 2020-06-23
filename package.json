@@ -3,6 +3,10 @@
   "version": "0.0.6-1",
   "description": "A collection of Reacts hooks used in Flywire",
   "main": "src/index.js",
+  "module": "build/index.esm.js",
+  "files": [
+    "build"
+  ],
   "scripts": {
     "build": "rollup -c",
     "check:format": "npm run prettier -- --list-different",
@@ -45,7 +49,7 @@
     "rollup": "^2.10.4",
     "rollup-plugin-commonjs": "^10.1.0"
   },
-  "dependencies": {
+  "peerDependencies": {
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   }
