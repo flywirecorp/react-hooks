@@ -10,13 +10,16 @@
   "scripts": {
     "build": "rollup -c",
     "check:format": "npm run prettier -- --list-different",
+    "clean": "rm -rf dist",
     "format": "npm run prettier -- --write",
     "lint": "eslint --ext .js ./src",
+    "prebuild": "npm run validate && npm run test:once && npm run clean",
     "prettier": "prettier \"**/*.js\"",
     "test": "jest --watchAll",
     "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand --watchAll",
     "test:once": "jest",
-    "validate": "npm run check:format && npm run lint"
+    "validate": "npm run check:format && npm run lint",
+    "version": "npm run build && git add -A dist && git push && git push --tags"
   },
   "license": "MIT",
   "keywords": [
