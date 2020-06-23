@@ -8,6 +8,16 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.0.6] - 2020-06-23
+
+### Added
+
+- Build scripts
+
+### Changed
+
+- Generate cjs and esm bundles in dist folder
+
 ## [0.0.5] - 2020-06-12
 
 ### Changed
