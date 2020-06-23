@@ -14,7 +14,7 @@
     "format": "npm run prettier -- --write",
     "lint": "eslint --ext .js ./src",
     "prebuild": "npm run validate && npm run test:once && npm run clean",
-    "prettier": "prettier \"**/*.js\"",
+    "prettier": "prettier \"src/**/*.js\"",
     "test": "jest --watchAll",
     "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand --watchAll",
     "test:once": "jest",
