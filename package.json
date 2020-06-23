@@ -45,7 +45,7 @@
     "rollup": "^2.10.4",
     "rollup-plugin-commonjs": "^10.1.0"
   },
-  "peerDependencies": {
+  "dependencies": {
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   }
