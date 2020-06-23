@@ -8,6 +8,12 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.0.7] - 2020-06-23
+
+### Changed
+
+- Dist folder uploaded
+
 ## [0.0.6] - 2020-06-23
 
 ### Added
