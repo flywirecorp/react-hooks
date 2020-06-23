@@ -19,7 +19,7 @@
     "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand --watchAll",
     "test:once": "jest",
     "validate": "npm run check:format && npm run lint",
-    "version": "npm run build && git add -A dist && git push && git push --tags"
+    "version": "npm run build && git add -A && git push && git push --tags"
   },
   "license": "MIT",
   "keywords": [
