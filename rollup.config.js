@@ -4,8 +4,11 @@ import commonjs from '@rollup/plugin-commonjs';
 import pkg from './package.json';
 
 const GLOBALS = {
+  'lodash.isequal': 'isEqual',
   react: 'React',
   'react-dom': 'ReactDOM',
+  'validate.js': 'Validate.js',
+  xregexp: 'XRegExp',
 };
 
 export default {
@@ -30,5 +33,5 @@ export default {
     }),
     commonjs(),
   ],
-  external: ['react', 'react-dom'],
+  external: ['lodash.isequal', 'react', 'react-dom', 'validate.js', 'xregexp'],
 };

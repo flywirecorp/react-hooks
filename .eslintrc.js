@@ -15,6 +15,7 @@ module.exports = {
     strict: ['error', 'never'],
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
+    'no-empty': 'off',
   },
   plugins: ['react-hooks'],
   env: {
