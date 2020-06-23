@@ -10,6 +10,15 @@ Add the dependency to your `package.json`:
 npm i @flywire/react-hooks
 ```
 
+## Development
+
+Install dependencies and peer dependencies:
+
+```javascript
+npm install
+npm install react react-dom --no-save
+```
+
 ## Hooks
 
 * [useForm](src/useForm/README.md)
