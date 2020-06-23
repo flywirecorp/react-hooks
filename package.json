@@ -2,7 +2,11 @@
   "name": "@flywire/react-hooks",
   "version": "0.0.6-0",
   "description": "A collection of Reacts hooks used in Flywire",
-  "main": "src/index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "rollup -c",
     "check:format": "npm run prettier -- --list-different",
