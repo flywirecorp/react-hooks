@@ -16,7 +16,7 @@ Install dependencies and peer dependencies:
 
 ```javascript
 npm install
-npm install react react-dom --no-save
+npm install react react-dom lodash.isequal validate.js@0.11.1 xregexp --no-save
 ```
 
 ## Hooks

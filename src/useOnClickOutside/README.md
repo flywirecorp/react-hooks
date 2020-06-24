@@ -19,7 +19,7 @@ useOnClickOutside(ref, callback);
 | `ref`      | Reference to a React element.                                     |
 | `callback` | Function to execute when click outside of the referenced element. |
 
-#### Usage
+#### Example
 
 ```jsx harmony
 import React from 'react';

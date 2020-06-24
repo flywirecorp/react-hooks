@@ -4,6 +4,14 @@
 
 #### Usage
 
+Ensure your project has these dependencies installed:
+
+```
+npm install lodash.isequal validate.js@0.11.1 xregexp
+```
+
+Then:
+
 ```js
 const data = {};
 const constraints = {
@@ -32,7 +40,7 @@ const { isValid, errors } = useValidate(data, constraints);
 | `isValid` | Result of the validation. Default = false     |
 | `errors`  | Object that contains the errors. Default = {} |
 
-#### Usage
+#### Example
 
 ```jsx harmony
 import React from 'react';

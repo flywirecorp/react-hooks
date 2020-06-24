@@ -22,7 +22,7 @@ const [on] = useToggle(false);
 | Current state value          |
 | Function to update the state |
 
-#### Usage
+#### Example
 
 ```jsx harmony
 import React from 'react';

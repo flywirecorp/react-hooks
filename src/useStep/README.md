@@ -39,7 +39,7 @@ const { complete, completed, index, navigation, step, uncomplete } = useStep({
 | `prev` | Call to navigate to the previous step index |
 | `next` | Call to navigate to the next step index     |
 
-#### Usage
+#### Example
 
 ```jsx harmony
 import React from 'react';
