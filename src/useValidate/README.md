@@ -37,7 +37,6 @@ const { isValid, errors } = useValidate(data, constraints);
 ```jsx harmony
 import React from 'react';
 import { useForm, useValidate } from '@flywire/react-hooks';
-import './styles.css';
 
 function App() {
   const constraints = {
@@ -109,4 +108,6 @@ function App() {
     </form>
   );
 }
+
+export default App;
 ```

@@ -33,4 +33,6 @@ function App() {
 
   return <button onClick={toggle}>{on ? 'ON' : 'OFF'}</button>;
 }
+
+export default App;
 ```
