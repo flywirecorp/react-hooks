@@ -11,8 +11,8 @@ const [on] = useToggle(false);
 
 #### Config
 
-|                                | Description |
-| :----------------------------- | ----------- |
+| Description                    |
+| :----------------------------- |
 | Initial state. Default = false |
 
 #### Return pair
