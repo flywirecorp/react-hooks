@@ -24,7 +24,8 @@ npm install react react-dom --no-save
 * [useForm](src/useForm/README.md)
 * [useOnClickOutside](src/useOnClickOutside/README.md)
 * [useOnScroll](src/useOnScroll/README.md)
-* [useStep](src/useStep/README.md)
+* [useToggle](src/useToggle/README.md)
+* [useValidate](src/useValidate/README.md)
 
 ## Create a new release
 
@@ -38,6 +39,14 @@ For example:
 
 ```bash
 npm version patch
+npm publish
+```
+
+or beta:
+
+```bash
+npm version prepatch
+npm publish --tag beta
 ```
 
 This will bump the `package.json` version, build a new bundle, commit, push the changes tagging them to a new release and update the documentation.
