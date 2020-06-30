@@ -1,7 +1,6 @@
-# react-hooks
+# react-hooks &middot; [<img alt="Version" src="https://img.shields.io/npm/v/@flywire/react-hooks.svg">](https://www.npmjs.com/package/@flywire/react-hooks) [<img alt="Size" src="https://img.shields.io/bundlephobia/min/@flywire/react-hooks">](https://bundlephobia.com/result?p=@flywire/react-hooks)
 
-[<img alt="Version" src="https://img.shields.io/npm/v/@flywire/react-hooks.svg">](https://www.npmjs.com/package/@flywire/react-hooks)
-[<img alt="Size" src="https://img.shields.io/bundlephobia/min/@flywire/react-hooks">](https://bundlephobia.com/result?p=@flywire/react-hooks)
+![react-hooks](https://p43.f3.n0.cdn.getcloudapp.com/items/KouBAgwO/fly-hooks.png?v=f90b5de7d97396f9883cfc17d0784516)
 
 A collection of Reacts hooks used in Flywire
 
