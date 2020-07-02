@@ -10,4 +10,4 @@ const useOnScroll = callback => {
   }, [callback]);
 };
 
-export default useOnScroll;
+export { useOnScroll };

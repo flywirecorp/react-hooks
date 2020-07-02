@@ -1,4 +1,4 @@
-import wrapper from 'validate.js';
+import validate from 'validate.js';
 import XRegExp from 'xregexp';
 
 const dateRegExp = /^\d{2}\/\d{2}\/\d{4}$/;
@@ -15,7 +15,7 @@ function isValidDate(str) {
   return `${month}/${day}/${year}` === str;
 }
 
-wrapper.extend(wrapper.validators.datetime, {
+validate.extend(validate.validators.datetime, {
   parse: function (value) {
     if (!value) {
       return false;
@@ -33,7 +33,7 @@ wrapper.extend(wrapper.validators.datetime, {
   },
 });
 
-wrapper.validators.customFormat = (value, options) => {
+validate.validators.customFormat = (value, options) => {
   if (!value) {
     return;
   }
@@ -56,4 +56,4 @@ wrapper.validators.customFormat = (value, options) => {
   } catch (err) {}
 };
 
-export default wrapper;
+export { validate };

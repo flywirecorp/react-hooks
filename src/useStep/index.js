@@ -1,3 +1,1 @@
-import useStep from './useStep';
-
-export default useStep;
+export * from './useStep';

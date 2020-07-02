@@ -4,4 +4,4 @@ function useToggle(initialState = false) {
   return useReducer(state => !state, initialState);
 }
 
-export default useToggle;
+export { useToggle };

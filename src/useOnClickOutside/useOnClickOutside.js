@@ -18,4 +18,4 @@ const useOnClickOutside = (ref, callback) => {
   }, [handler]);
 };
 
-export default useOnClickOutside;
+export { useOnClickOutside };

@@ -17,4 +17,4 @@ function useForm(initialValues = {}) {
   return { ...state, handleChange };
 }
 
-export default useForm;
+export { useForm };

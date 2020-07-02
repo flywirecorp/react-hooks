@@ -1,3 +1,1 @@
-import useValidate from './useValidate';
-
-export default useValidate;
+export * from './useValidate';

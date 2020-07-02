@@ -1,3 +1,1 @@
-import useOnScroll from './useOnScroll';
-
-export default useOnScroll;
+export * from './useOnScroll';

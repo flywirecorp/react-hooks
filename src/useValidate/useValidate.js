@@ -1,5 +1,5 @@
 import { useEffect, useReducer, useRef } from 'react';
-import validate from './validate';
+import { validate } from './validate';
 import isEqual from 'lodash.isEqual';
 
 export const actionTypes = {
@@ -48,4 +48,4 @@ function useValidate(data = {}, constraints = {}) {
   return state;
 }
 
-export default useValidate;
+export { useValidate };

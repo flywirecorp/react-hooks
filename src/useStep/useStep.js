@@ -44,4 +44,4 @@ function useStep({ steps, initialStep = FIRST_STEP }) {
   };
 }
 
-export default useStep;
+export { useStep };

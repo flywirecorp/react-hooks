@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react-hooks';
-import useValidate from './useValidate';
+import { useValidate } from '../index';
 
 describe('useValidate', () => {
   it('returns errors when invalid data', () => {

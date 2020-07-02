@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { render } from '@testing-library/react';
-import useOnClickOutside from './useOnClickOutside';
+import { useOnClickOutside } from '../index';
 
 const whenClickedOutside = jest.fn();
 const WithClickOutside = () => {

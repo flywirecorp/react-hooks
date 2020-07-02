@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react-hooks';
-import useStep from './useStep';
+import { useStep } from '../index';
 
 describe('useStep', () => {
   const steps = [{ id: 'first' }, { id: 'second' }];

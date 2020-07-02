@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import useOnScroll from './useOnScroll';
+import { useOnScroll } from '../index';
 
 describe('useOnScroll', () => {
   const documentMock = {};

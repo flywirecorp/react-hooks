@@ -1,3 +1,1 @@
-import useOnClickOutside from './useOnClickOutside';
-
-export default useOnClickOutside;
+export * from './useOnClickOutside';
