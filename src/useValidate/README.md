@@ -44,7 +44,7 @@ const { isValid, errors } = useValidate(data, constraints);
 
 ```jsx harmony
 import React from 'react';
-import { useForm, useValidate } from '@flywire/react-hooks';
+import { useFormState, useValidate } from '@flywire/react-hooks';
 
 function App() {
   const constraints = {
@@ -67,7 +67,7 @@ function App() {
     },
   };
 
-  const { values, handleChange, dirtyFields } = useForm();
+  const { values, update, dirtyFields } = useFormState();
   const { isValid, errors } = useValidate(values, constraints);
 
   function handleSubmit(evt) {
@@ -75,11 +75,11 @@ function App() {
   }
 
   function handleInputChange(evt) {
-    handleChange(evt.target.name, evt.target.value);
+    update(evt.target.name, evt.target.value);
   }
 
   function handleTermsChange() {
-    handleChange('terms', !values.terms);
+    update('terms', !values.terms);
   }
 
   return (

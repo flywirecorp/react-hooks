@@ -1,12 +1,12 @@
 import { useState } from 'react';
 
-function useForm(initialValues = {}) {
+function useFormState(initialValues = {}) {
   const [state, setState] = useState({
     values: initialValues,
     dirtyFields: {},
   });
 
-  function handleChange(name, value) {
+  function update(name, value) {
     setState({
       ...state,
       values: { ...state.values, [name]: value },
@@ -14,7 +14,7 @@ function useForm(initialValues = {}) {
     });
   }
 
-  return { ...state, handleChange };
+  return { ...state, update };
 }
 
-export { useForm };
+export { useFormState };

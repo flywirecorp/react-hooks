@@ -1,11 +1,11 @@
-# useForm
+# useFormState
 
-`useForm` persists form data and return dirty fields.
+`useFormState` persists form data and return dirty fields.
 
 #### Usage
 
 ```js
-const { values, dirtyFields, handleChange } = useForm({});
+const { values, dirtyFields, update } = useFormState({});
 ```
 
 #### Config
@@ -16,27 +16,27 @@ const { values, dirtyFields, handleChange } = useForm({});
 
 #### Return object
 
-| Key            | Description                               |
-| :------------- | :---------------------------------------- |
-| `values`       | Field values                              |
-| `dirtyFields`  | Fields modified by the user               |
-| `handleChange` | Callback for persisting the field's value |
+| Key           | Description                        |
+| :------------ | :--------------------------------- |
+| `values`      | Field values                       |
+| `dirtyFields` | Fields updated by the user         |
+| `update`      | Function for updating field values |
 
 #### Usage
 
 ```jsx harmony
 import React from 'react';
-import { useForm } from '@flywire/react-hooks';
+import { useFormState } from '@flywire/react-hooks';
 
 function App() {
-  const { values, handleChange, dirtyValues } = useForm();
+  const { values, update, dirtyValues } = useFormState();
 
   function handleSubmit(evt) {
     evt.preventDefault();
   }
 
   function handleInputChange(evt) {
-    handleChange(evt.target.name, evt.target.value);
+    update(evt.target.name, evt.target.value);
   }
 
   return (
