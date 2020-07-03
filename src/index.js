@@ -1,3 +1,4 @@
+export * from './useContextualizer';
 export * from './useFormState';
 export * from './useOnClickOutside';
 export * from './useOnScroll';
