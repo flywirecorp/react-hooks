@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, useReducer, useRef } from 'react';
-import wrapper from 'validate.js';
+import validate from 'validate.js';
 import XRegExp from 'xregexp';
 
 function _defineProperty(obj, key, value) {
@@ -123,7 +123,7 @@ function _nonIterableRest() {
   throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 
-function useForm() {
+function useFormState() {
   var initialValues = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
   var _useState = useState({
@@ -134,7 +134,7 @@ function useForm() {
       state = _useState2[0],
       setState = _useState2[1];
 
-  function handleChange(name, value) {
+  function update(name, value) {
     setState(_objectSpread2(_objectSpread2({}, state), {}, {
       values: _objectSpread2(_objectSpread2({}, state.values), {}, _defineProperty({}, name, value)),
       dirtyFields: _objectSpread2(_objectSpread2({}, state.dirtyFields), {}, _defineProperty({}, name, true))
@@ -142,7 +142,7 @@ function useForm() {
   }
 
   return _objectSpread2(_objectSpread2({}, state), {}, {
-    handleChange: handleChange
+    update: update
   });
 }
 
@@ -248,6 +248,26 @@ function useToggle() {
   }, initialState);
 }
 
+function useThrottle(value, delay) {
+  var wallclock = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+  var lastTime = useRef(wallclock);
+
+  var _useState = useState(value),
+      _useState2 = _slicedToArray(_useState, 2),
+      nextValue = _useState2[0],
+      setNextValue = _useState2[1];
+
+  useEffect(function () {
+    var now = Date.now();
+
+    if (now - lastTime.current >= delay) {
+      lastTime.current = now;
+      setNextValue(value);
+    }
+  }, [value, delay]);
+  return nextValue;
+}
+
 var dateRegExp = /^\d{2}\/\d{2}\/\d{4}$/;
 
 function isValidDate(str) {
@@ -260,7 +280,7 @@ function isValidDate(str) {
   return "".concat(month, "/").concat(day, "/").concat(year) === str;
 }
 
-wrapper.extend(wrapper.validators.datetime, {
+validate.extend(validate.validators.datetime, {
   parse: function parse(value) {
     if (!value) {
       return false;
@@ -277,7 +297,7 @@ wrapper.extend(wrapper.validators.datetime, {
   }
 });
 
-wrapper.validators.customFormat = function (value, options) {
+validate.validators.customFormat = function (value, options) {
   if (!value) {
     return;
   }
@@ -2203,7 +2223,7 @@ function useValidate() {
       return;
     }
 
-    var errors = wrapper.validate(data, constraints);
+    var errors = validate.validate(data, constraints);
 
     if (errors) {
       return dispatch({
@@ -2223,4 +2243,4 @@ function useValidate() {
   return state;
 }
 
-export { useForm, useOnClickOutside, useOnScroll, useStep, useToggle, useValidate };
+export { actionTypes, useFormState, useOnClickOutside, useOnScroll, useStep, useThrottle, useToggle, useValidate };
