@@ -32,6 +32,7 @@ npm run test
 - [useForm](src/useForm/README.md)
 - [useOnClickOutside](src/useOnClickOutside/README.md)
 - [useOnScroll](src/useOnScroll/README.md)
+- [useThrottle](src/useThrottle/README.md)
 - [useToggle](src/useToggle/README.md)
 - [useValidate](src/useValidate/README.md)
 

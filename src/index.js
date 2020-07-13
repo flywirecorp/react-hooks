@@ -3,4 +3,5 @@ export * from './useOnClickOutside';
 export * from './useOnScroll';
 export * from './useStep';
 export * from './useToggle';
+export * from './useThrottle';
 export * from './useValidate';
