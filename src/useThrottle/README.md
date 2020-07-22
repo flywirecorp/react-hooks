@@ -14,32 +14,37 @@ const throttledValue = useThrottle(value, 250);
 
 | Key     | Description                                       |
 | :------ | :------------------------------------------------ |
-| `value` | Value to hold until delay expires                 |
+| `value` | Value to hold between delay expirations           |
 | `delay` | Time in milliseconds for next value to be emitted |
 
 #### Example
 
 ```jsx harmony
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useThrottle } from '@flywire/react-hooks';
 
-function SearchForm({ onSearch }) {
-  const [text, setText] = useState('');
-  const throttledText = useThrottle(text, 250);
+function SlowTable() {
+  const [status, setStatus] = useState('calm');
+  const [refreshCycle, setRefreshCycle] = useState(0);
+  const throttledRefreshCycle = useThrottle(refreshCycle, 2000);
 
   useEffect(() => {
-    onSearch(throttledText);
-  }, [throttledText]);
+    setStatus('loading');
+    expensiveApiCall().then(() => setStatus('calm'));
+  }, [throttledRefreshCycle]);
 
   return (
-    <input
-      type="text"
-      placeholder="Search…"
-      onChange={e => setText(e.target.value)}
-      value={text}
-    />
+    <div className="app">
+      <button onClick={() => setRefreshCycle(refreshCycle + 1)}>Refresh</button>
+      <div>status: {status}</div>
+      <div>refreshCycle: {refreshCycle}</div>
+      <div>throttledRefreshCycle: {throttledRefreshCycle}</div>
+    </div>
   );
 }
 
-export default SearchForm;
+const expensiveApiCall = () =>
+  new Promise(resolve => setTimeout(() => resolve(), 1500));
+
+export default SlowTable;
 ```
