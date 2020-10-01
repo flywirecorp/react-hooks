@@ -29,10 +29,11 @@ npm run test
 
 ## Hooks
 
+- [useDebounce](src/useDebounce/README.md)
 - [useFormState](src/useFormState/README.md)
 - [useOnClickOutside](src/useOnClickOutside/README.md)
 - [useOnScroll](src/useOnScroll/README.md)
-- [useDebounce](src/useDebounce/README.md)
+- [useStep](src/useStep/README.md)
 - [useThrottle](src/useThrottle/README.md)
 - [useToggle](src/useToggle/README.md)
 - [useValidate](src/useValidate/README.md)
