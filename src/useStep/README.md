@@ -53,10 +53,15 @@ function SecondStep() {
   return <p>Second Step</p>;
 }
 
+function ThirdStep() {
+  return <p>Third Step</p>;
+}
+
 function App() {
   const steps = [
     { id: 'first', element: <FirstStep /> },
     { id: 'second', element: <SecondStep /> },
+    { id: 'third', element: <ThirdStep /> },
   ];
 
   const { index, complete, navigation } = useStep({ steps });
@@ -66,9 +71,15 @@ function App() {
     navigation.next();
   }
 
+  function handlePrevClick() {
+    complete(index);
+    navigation.prev();
+  }
+
   return (
     <>
       {steps[index].element}
+      <button onClick={handlePrevClick}>Prev</button>
       <button onClick={handleNextClick}>Next</button>
     </>
   );
@@ -76,3 +87,5 @@ function App() {
 
 export default App;
 ```
+
+[Demo](https://codesandbox.io/s/flywire-react-hooks-usestep-4v250?file=/src/App.js)

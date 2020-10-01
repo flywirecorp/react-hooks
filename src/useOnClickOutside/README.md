@@ -27,7 +27,7 @@ import { useOnClickOutside } from '@flywire/react-hooks';
 
 const Nothing = () => null;
 
-export default function App() {
+function App() {
   const [isVisible, setIsVisible] = React.useState(true);
   const ref = React.useRef();
 
@@ -74,3 +74,5 @@ export default function App() {
 
 export default App;
 ```
+
+[Demo](https://codesandbox.io/s/flywire-react-hooks-useonclickoutside-q5dw2?file=/src/App.js)

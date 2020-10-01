@@ -20,26 +20,32 @@ const debouncedSearchText = useDebounce(searchText, 350);
 #### Example
 
 ```jsx harmony
-import React, { useState } from 'react';
-import { useDebounce } from '@flywire/react-hooks';
+import React, { useEffect, useState } from "react";
+import { useDebounce } from "@flywire/react-hooks";
 
-function SearchForm({ onSearch }) {
-  const [text, setText] = useState('');
-  const debouncedSearchText = useDebounce(searchText, 350);
+function handleOnSearch() {
+  console.log("searching...");
+}
+
+function App({ onSearch = handleOnSearch }) {
+  const [text, setText] = useState("");
+  const debouncedSearchText = useDebounce(onSearch, 350);
 
   useEffect(() => {
     onSearch(debouncedSearchText);
-  }, [debouncedSearchText]);
+  }, [debouncedSearchText, onSearch]);
 
   return (
     <input
       type="text"
       placeholder="Search…"
-      onChange={e => setText(e.target.value)}
+      onChange={(e) => setText(e.target.value)}
       value={text}
     />
   );
 }
 
-export default SearchForm;
+export default App;
 ```
+
+[Demo](https://codesandbox.io/s/flywire-react-hooks-usedebounce-1p03e?file=/src/App.js)

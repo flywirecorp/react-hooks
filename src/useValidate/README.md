@@ -43,28 +43,26 @@ const { isValid, errors } = useValidate(data, constraints);
 #### Example
 
 ```jsx harmony
-import React from 'react';
-import { useFormState, useValidate } from '@flywire/react-hooks';
+import React from "react";
+import { useFormState, useValidate } from "@flywire/react-hooks";
 
 function App() {
   const constraints = {
     terms: {
       presence: true,
       inclusion: {
-        within: [true],
-      },
+        within: [true]
+      }
     },
     username: {
-      presence: true,
+      presence: true
     },
     password: {
       presence: true,
-      format: {
-        pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
-        message:
-          'must have minimum eight characters and at least one letter and one number',
-      },
-    },
+      length: {
+        minimum: 8
+      }
+    }
   };
 
   const { values, update, dirtyFields } = useFormState();
@@ -79,34 +77,34 @@ function App() {
   }
 
   function handleTermsChange() {
-    update('terms', !values.terms);
+    update("terms", !values.terms);
   }
 
   return (
     <form onSubmit={handleSubmit}>
-      <label style={{ display: 'block' }}>
+      <label style={{ display: "block" }}>
         <b>Username</b>
         <input type="text" name="username" onChange={handleInputChange} />
         {dirtyFields.username && errors?.username && (
-          <span style={{ color: 'red' }}>{errors.username[0]}</span>
+          <span style={{ color: "red" }}>{errors.username[0]}</span>
         )}
       </label>
 
-      <label style={{ display: 'block' }}>
+      <label style={{ display: "block" }}>
         <b>Password</b>
         <input type="password" name="password" onChange={handleInputChange} />
         {dirtyFields.password && errors?.password && (
-          <span style={{ color: 'red' }}>{errors.password[0]}</span>
+          <span style={{ color: "red" }}>{errors.password[0]}</span>
         )}
       </label>
 
-      <label style={{ display: 'block' }}>
+      <label style={{ display: "block" }}>
         <input
           type="checkbox"
           name="terms"
           value="false"
           onChange={handleTermsChange}
-        />{' '}
+        />{" "}
         I have read and agree to the Terms and Conditions
       </label>
 
@@ -119,3 +117,5 @@ function App() {
 
 export default App;
 ```
+
+[Demo](https://codesandbox.io/s/flywire-react-hooks-usevalidate-vy1bo?file=/src/App.js)

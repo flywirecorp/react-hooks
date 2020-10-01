@@ -42,10 +42,12 @@ function App() {
   return (
     <form onSubmit={handleSubmit}>
       <input name="firstname" onChange={handleInputChange} />
-      {!values.firstName && dirtyValues.firstName && 'First name is required.'}
+      {!values?.firstName && dirtyValues?.firstName && 'First name is required.'}
 
       <input type="submit" />
     </form>
   );
 }
+
+export default App;
 ```
