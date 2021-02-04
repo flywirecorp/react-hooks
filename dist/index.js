@@ -2,11 +2,14 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
-
 var react = require('react');
-var validate = _interopDefault(require('validate.js'));
-var XRegExp = _interopDefault(require('xregexp'));
+var validate = require('validate.js');
+var XRegExp = require('xregexp');
+
+function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+var validate__default = /*#__PURE__*/_interopDefaultLegacy(validate);
+var XRegExp__default = /*#__PURE__*/_interopDefaultLegacy(XRegExp);
 
 function _defineProperty(obj, key, value) {
   if (key in obj) {
@@ -303,7 +306,7 @@ function isValidDate(str) {
   return "".concat(month, "/").concat(day, "/").concat(year) === str;
 }
 
-validate.extend(validate.validators.datetime, {
+validate__default['default'].extend(validate__default['default'].validators.datetime, {
   parse: function parse(value) {
     if (!value) {
       return false;
@@ -320,7 +323,7 @@ validate.extend(validate.validators.datetime, {
   }
 });
 
-validate.validators.customFormat = function (value, options) {
+validate__default['default'].validators.customFormat = function (value, options) {
   if (!value) {
     return;
   }
@@ -329,7 +332,7 @@ validate.validators.customFormat = function (value, options) {
     var pattern = options.pattern;
     var ignoreCase = pattern.includes('(?i)');
     var patternStr = pattern.replace(/\\A/i, '^').replace(/\\Z/i, '$').replace(/\(\?i\)/g, '');
-    var regExp = new XRegExp(patternStr, ignoreCase ? 'i' : undefined);
+    var regExp = new XRegExp__default['default'](patternStr, ignoreCase ? 'i' : undefined);
     var message = options.message || '^is invalid';
 
     if (regExp.test(value)) {
@@ -342,21 +345,11 @@ validate.validators.customFormat = function (value, options) {
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
-function createCommonjsModule(fn, basedir, module) {
-	return module = {
-	  path: basedir,
-	  exports: {},
-	  require: function (path, base) {
-      return commonjsRequire(path, (base === undefined || base === null) ? module.path : base);
-    }
-	}, fn(module, module.exports), module.exports;
+function createCommonjsModule(fn) {
+  var module = { exports: {} };
+	return fn(module, module.exports), module.exports;
 }
 
-function commonjsRequire () {
-	throw new Error('Dynamic requires are not currently supported by @rollup/plugin-commonjs');
-}
-
-var lodash_isEqual = createCommonjsModule(function (module, exports) {
 /**
  * Lodash (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -366,6 +359,7 @@ var lodash_isEqual = createCommonjsModule(function (module, exports) {
  * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
  */
 
+var lodash_isequal = createCommonjsModule(function (module, exports) {
 /** Used as the size to enable large array optimizations. */
 var LARGE_ARRAY_SIZE = 200;
 
@@ -2242,11 +2236,11 @@ function useValidate() {
       dispatch = _useReducer2[1];
 
   react.useEffect(function () {
-    if (lodash_isEqual(previousInputs.current, [data, constraints])) {
+    if (lodash_isequal(previousInputs.current, [data, constraints])) {
       return;
     }
 
-    var errors = validate.validate(data, constraints);
+    var errors = validate__default['default'].validate(data, constraints);
 
     if (errors) {
       return dispatch({
