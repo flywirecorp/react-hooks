@@ -29,7 +29,7 @@ import React from 'react';
 import { useFormState } from '@flywire/react-hooks';
 
 function App() {
-  const { values, update, dirtyValues } = useFormState();
+  const { values, update, dirtyFields } = useFormState();
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -42,7 +42,7 @@ function App() {
   return (
     <form onSubmit={handleSubmit}>
       <input name="firstname" onChange={handleInputChange} />
-      {!values?.firstName && dirtyValues?.firstName && 'First name is required.'}
+      {!values?.firstName && dirtyFields?.firstName && 'First name is required.'}
 
       <input type="submit" />
     </form>
