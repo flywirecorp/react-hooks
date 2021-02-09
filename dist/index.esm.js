@@ -158,8 +158,20 @@ function useFormState() {
     }));
   }
 
+  function updateAll() {
+    var newFields = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    setState(_objectSpread2(_objectSpread2({}, state), {}, {
+      values: _objectSpread2(_objectSpread2({}, state.values), newFields),
+      dirtyFields: _objectSpread2(_objectSpread2({}, state.dirtyFields), Object.keys(newFields).reduce(function (acc, item) {
+        acc[item] = true;
+        return acc;
+      }, {}))
+    }));
+  }
+
   return _objectSpread2(_objectSpread2({}, state), {}, {
-    update: update
+    update: update,
+    updateAll: updateAll
   });
 }
 
