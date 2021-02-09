@@ -14,7 +14,21 @@ function useFormState(initialValues = {}) {
     });
   }
 
-  return { ...state, update };
+  function updateAll(newFields = {}) {
+    setState({
+      ...state,
+      values: { ...state.values, ...newFields },
+      dirtyFields: {
+        ...state.dirtyFields,
+        ...Object.keys(newFields).reduce((acc, item) => {
+          acc[item] = true;
+          return acc;
+        }, {}),
+      },
+    });
+  }
+
+  return { ...state, update, updateAll };
 }
 
 export { useFormState };
