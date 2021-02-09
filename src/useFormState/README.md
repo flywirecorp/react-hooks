@@ -16,11 +16,12 @@ const { values, dirtyFields, update } = useFormState({});
 
 #### Return object
 
-| Key           | Description                        |
-| :------------ | :--------------------------------- |
-| `values`      | Field values                       |
-| `dirtyFields` | Fields updated by the user         |
-| `update`      | Function for updating field values |
+| Key           | Description                          |
+| :------------ | :----------------------------------- |
+| `values`      | Field values                         |
+| `dirtyFields` | Fields updated by the user           |
+| `update`      | Function for updating field value    |
+| `updateAll`   | Function for updating fields in bulk |
 
 #### Usage
 

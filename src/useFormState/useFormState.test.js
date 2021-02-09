@@ -2,14 +2,15 @@ import { renderHook, act } from '@testing-library/react-hooks';
 import { useFormState } from '../index';
 
 describe('useFormState', () => {
-  it('sets initial values', () => {
+  test('sets initial values', () => {
     const initialValues = { terms: false };
     const { result } = renderHook(() => useFormState(initialValues));
 
     expect(result.current.values).toEqual(initialValues);
+    expect(result.current.dirtyFields).toEqual({});
   });
 
-  it('sets the right value', () => {
+  test('sets the right value', () => {
     const { result } = renderHook(() => useFormState());
 
     act(() => {
@@ -18,5 +19,25 @@ describe('useFormState', () => {
 
     expect(result.current.values).toEqual({ firstName: 'John' });
     expect(result.current.dirtyFields).toEqual({ firstName: true });
+  });
+
+  test('sets the right values', () => {
+    const initialValues = { terms: false };
+    const { result } = renderHook(() => useFormState(initialValues));
+
+    act(() => {
+      result.current.updateAll({ firstName: 'John', lastName: 'Wrick' });
+    });
+
+    expect(result.current.values).toEqual({
+      terms: false,
+      firstName: 'John',
+      lastName: 'Wrick',
+    });
+
+    expect(result.current.dirtyFields).toEqual({
+      firstName: true,
+      lastName: true,
+    });
   });
 });
