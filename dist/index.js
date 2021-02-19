@@ -251,18 +251,24 @@ function useStep(_ref) {
     return go(index - 1);
   };
 
-  var complete = function complete(step) {
-    var index = inRange(step);
-    var id = steps[index].id;
-    setCompleted(_toConsumableArray(new Set([].concat(_toConsumableArray(completed), [id]))));
+  var complete = function complete() {
+    var step = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : index;
+    return function () {
+      var index = inRange(step);
+      var id = steps[index].id;
+      setCompleted(_toConsumableArray(new Set([].concat(_toConsumableArray(completed), [id]))));
+    }();
   };
 
-  var uncomplete = function uncomplete(step) {
-    var index = inRange(step);
-    var stepId = steps[index].id;
-    setCompleted(completed.filter(function (id) {
-      return id !== stepId;
-    }));
+  var uncomplete = function uncomplete() {
+    var step = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : index;
+    return function () {
+      var index = inRange(step);
+      var stepId = steps[index].id;
+      setCompleted(completed.filter(function (id) {
+        return id !== stepId;
+      }));
+    }();
   };
 
   return {
