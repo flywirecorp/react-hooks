@@ -20,14 +20,14 @@ function useStep({ steps, initialStep = FIRST_STEP }) {
   const go = step => setIndex(inRange(step));
   const next = () => go(index + 1);
   const prev = () => go(index - 1);
-  const complete = step => {
+  const complete = (step = index) => {
     const index = inRange(step);
     const id = steps[index].id;
 
     setCompleted([...new Set([...completed, id])]);
   };
 
-  const uncomplete = step => {
+  const uncomplete = (step = index) => {
     const index = inRange(step);
     const stepId = steps[index].id;
 

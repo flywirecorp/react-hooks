@@ -100,6 +100,16 @@ describe('useStep', () => {
     expect(result.current.completed).toEqual(['first']);
   });
 
+  test('complete current step if no args', () => {
+    const { result } = renderHook(() => useStep({ steps }));
+
+    act(() => {
+      result.current.complete();
+    });
+
+    expect(result.current.completed).toEqual(['first']);
+  });
+
   test('sets a step as uncompleted', () => {
     const { result } = renderHook(() => useStep({ steps }));
 
@@ -116,5 +126,19 @@ describe('useStep', () => {
     });
 
     expect(result.current.completed).toEqual(['second']);
+  });
+
+  test('uncomplete current step if no args', () => {
+    const { result } = renderHook(() => useStep({ steps }));
+
+    act(() => {
+      result.current.complete('first');
+    });
+
+    act(() => {
+      result.current.uncomplete();
+    });
+
+    expect(result.current.completed).toEqual([]);
   });
 });
