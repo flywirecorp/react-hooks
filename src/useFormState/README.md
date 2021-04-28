@@ -22,6 +22,7 @@ const { values, dirtyFields, update } = useFormState({});
 | `dirtyFields` | Fields updated by the user           |
 | `update`      | Function for updating field value    |
 | `updateAll`   | Function for updating fields in bulk |
+| `reset`       | Reset status                         |
 
 #### Usage
 

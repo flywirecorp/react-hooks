@@ -40,4 +40,16 @@ describe('useFormState', () => {
       lastName: true,
     });
   });
+
+  test('reset', function () {
+    const initialValues = { terms: false };
+    const { result } = renderHook(() => useFormState(initialValues));
+
+    act(() => {
+      result.current.reset();
+    });
+
+    expect(result.current.values).toEqual({});
+    expect(result.current.dirtyFields).toEqual({});
+  });
 });

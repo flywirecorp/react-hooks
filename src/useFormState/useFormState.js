@@ -28,7 +28,11 @@ function useFormState(initialValues = {}) {
     });
   }
 
-  return { ...state, update, updateAll };
+  function reset() {
+    setState({ values: {}, dirtyFields: {} });
+  }
+
+  return { ...state, update, updateAll, reset };
 }
 
 export { useFormState };

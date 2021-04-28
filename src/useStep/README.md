@@ -30,6 +30,7 @@ const { complete, completed, index, navigation, step, uncomplete } = useStep({
 | `navigation` | A navigation object                        |
 | `step`       | An object containing the current step      |
 | `uncomplete` | Call to set a step as uncompleted          |
+| `reset`      | Reset status                               |
 
 #### Navitation object
 

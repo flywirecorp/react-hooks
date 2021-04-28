@@ -141,4 +141,24 @@ describe('useStep', () => {
 
     expect(result.current.completed).toEqual([]);
   });
+
+  test('reset', () => {
+    const { result } = renderHook(() => useStep({ steps }));
+
+    act(() => {
+      result.current.complete('first');
+    });
+
+    act(() => {
+      result.current.navigation.go('second');
+    });
+
+    act(() => {
+      result.current.reset();
+    });
+
+    expect(result.current.index).toEqual(0);
+    expect(result.current.step).toEqual({ id: 'first' });
+    expect(result.current.completed).toEqual([]);
+  });
 });
