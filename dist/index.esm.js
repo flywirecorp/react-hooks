@@ -169,9 +169,17 @@ function useFormState() {
     }));
   }
 
+  function reset() {
+    setState({
+      values: {},
+      dirtyFields: {}
+    });
+  }
+
   return _objectSpread2(_objectSpread2({}, state), {}, {
     update: update,
-    updateAll: updateAll
+    updateAll: updateAll,
+    reset: reset
   });
 }
 
@@ -262,6 +270,11 @@ function useStep(_ref) {
     }();
   };
 
+  var reset = function reset() {
+    setIndex(initialStep);
+    setCompleted([]);
+  };
+
   return {
     complete: complete,
     completed: completed,
@@ -272,7 +285,8 @@ function useStep(_ref) {
       go: go
     },
     step: step,
-    uncomplete: uncomplete
+    uncomplete: uncomplete,
+    reset: reset
   };
 }
 
