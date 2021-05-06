@@ -49,6 +49,13 @@ describe('useFormState', () => {
       result.current.reset();
     });
 
+    expect(result.current.values).toEqual({ terms: false });
+    expect(result.current.dirtyFields).toEqual({});
+
+    act(() => {
+      result.current.reset({});
+    });
+
     expect(result.current.values).toEqual({});
     expect(result.current.dirtyFields).toEqual({});
   });

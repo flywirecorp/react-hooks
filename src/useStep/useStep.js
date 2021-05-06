@@ -34,8 +34,8 @@ function useStep({ steps, initialStep = FIRST_STEP }) {
     setCompleted(completed.filter(id => id !== stepId));
   };
 
-  const reset = () => {
-    setIndex(initialStep);
+  const reset = (step = initialStep) => {
+    setIndex(step);
     setCompleted([]);
   };
 
