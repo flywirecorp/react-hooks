@@ -179,8 +179,9 @@ function useFormState() {
   }
 
   function reset() {
+    var values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialValues;
     setState({
-      values: {},
+      values: values,
       dirtyFields: {}
     });
   }
@@ -280,7 +281,8 @@ function useStep(_ref) {
   };
 
   var reset = function reset() {
-    setIndex(initialStep);
+    var step = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialStep;
+    setIndex(step);
     setCompleted([]);
   };
 
