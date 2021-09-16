@@ -25,11 +25,7 @@ function useValidate(data = {}, constraints = {}) {
     },
   );
 
-  useEffect(() => {
-    if (isEqual(previousInputs.current, [data, constraints])) {
-      return;
-    }
-
+  function perform() {
     const errors = validate.validate(data, constraints);
 
     if (errors) {
@@ -37,6 +33,14 @@ function useValidate(data = {}, constraints = {}) {
     }
 
     dispatch({ type: actionTypes.VALIDATION_SUCCESS });
+  }
+
+  useEffect(() => {
+    if (isEqual(previousInputs.current, [data, constraints])) {
+      return;
+    }
+
+    perform();
   });
 
   const previousInputs = useRef();
@@ -45,7 +49,7 @@ function useValidate(data = {}, constraints = {}) {
     previousInputs.current = [data, constraints];
   });
 
-  return state;
+  return { ...state, validate: perform };
 }
 
 export { useValidate };
