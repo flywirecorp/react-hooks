@@ -2260,11 +2260,7 @@ function useValidate() {
       state = _useReducer2[0],
       dispatch = _useReducer2[1];
 
-  useEffect(function () {
-    if (lodash_isequal(previousInputs.current, [data, constraints])) {
-      return;
-    }
-
+  function perform() {
     var errors = validate.validate(data, constraints);
 
     if (errors) {
@@ -2277,12 +2273,22 @@ function useValidate() {
     dispatch({
       type: actionTypes.VALIDATION_SUCCESS
     });
+  }
+
+  useEffect(function () {
+    if (lodash_isequal(previousInputs.current, [data, constraints])) {
+      return;
+    }
+
+    perform();
   });
   var previousInputs = useRef();
   useEffect(function () {
     previousInputs.current = [data, constraints];
   });
-  return state;
+  return _objectSpread2(_objectSpread2({}, state), {}, {
+    validate: perform
+  });
 }
 
 export { actionTypes, useDebounce, useFormState, useOnClickOutside, useOnScroll, useStep, useThrottle, useToggle, useValidate };

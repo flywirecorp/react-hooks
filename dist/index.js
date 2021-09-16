@@ -2269,11 +2269,7 @@ function useValidate() {
       state = _useReducer2[0],
       dispatch = _useReducer2[1];
 
-  react.useEffect(function () {
-    if (lodash_isequal(previousInputs.current, [data, constraints])) {
-      return;
-    }
-
+  function perform() {
     var errors = validate__default['default'].validate(data, constraints);
 
     if (errors) {
@@ -2286,12 +2282,22 @@ function useValidate() {
     dispatch({
       type: actionTypes.VALIDATION_SUCCESS
     });
+  }
+
+  react.useEffect(function () {
+    if (lodash_isequal(previousInputs.current, [data, constraints])) {
+      return;
+    }
+
+    perform();
   });
   var previousInputs = react.useRef();
   react.useEffect(function () {
     previousInputs.current = [data, constraints];
   });
-  return state;
+  return _objectSpread2(_objectSpread2({}, state), {}, {
+    validate: perform
+  });
 }
 
 exports.actionTypes = actionTypes;
