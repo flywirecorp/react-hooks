@@ -2,12 +2,17 @@ import { useEffect, useReducer, useRef } from 'react';
 import { validate } from './validate';
 import isEqual from 'lodash.isEqual';
 
+const NOOP = () => {};
 export const actionTypes = {
   VALIDATION_SUCCESS: 'VALIDATION_SUCCESS',
   VALIDATION_ERROR: 'VALIDATION_ERROR',
 };
 
-function useValidate(data = {}, constraints = {}) {
+function useValidate(
+  data = {},
+  constraints = {},
+  { onError = NOOP, onSuccess = NOOP } = {},
+) {
   const [state, dispatch] = useReducer(
     (state, action) => {
       switch (action.type) {
@@ -29,10 +34,13 @@ function useValidate(data = {}, constraints = {}) {
     const errors = validate.validate(data, constraints);
 
     if (errors) {
-      return dispatch({ type: actionTypes.VALIDATION_ERROR, errors });
+      dispatch({ type: actionTypes.VALIDATION_ERROR, errors });
+      onError(errors);
+      return;
     }
 
     dispatch({ type: actionTypes.VALIDATION_SUCCESS });
+    onSuccess();
   }
 
   useEffect(() => {
