@@ -2286,13 +2286,14 @@ function useValidate() {
         errors: errors
       });
       onError(errors);
-      return;
+      return false;
     }
 
     dispatch({
       type: actionTypes.VALIDATION_SUCCESS
     });
     onSuccess();
+    return true;
   }
 
   react.useEffect(function () {
