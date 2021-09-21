@@ -2226,6 +2226,8 @@ function stubFalse() {
 module.exports = isEqual;
 });
 
+var NOOP = function NOOP() {};
+
 var actionTypes = {
   VALIDATION_SUCCESS: 'VALIDATION_SUCCESS',
   VALIDATION_ERROR: 'VALIDATION_ERROR'
@@ -2234,6 +2236,12 @@ var actionTypes = {
 function useValidate() {
   var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var constraints = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  var _ref = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
+      _ref$onError = _ref.onError,
+      onError = _ref$onError === void 0 ? NOOP : _ref$onError,
+      _ref$onSuccess = _ref.onSuccess,
+      onSuccess = _ref$onSuccess === void 0 ? NOOP : _ref$onSuccess;
 
   var _useReducer = useReducer(function (state, action) {
     switch (action.type) {
@@ -2264,15 +2272,18 @@ function useValidate() {
     var errors = validate.validate(data, constraints);
 
     if (errors) {
-      return dispatch({
+      dispatch({
         type: actionTypes.VALIDATION_ERROR,
         errors: errors
       });
+      onError(errors);
+      return;
     }
 
     dispatch({
       type: actionTypes.VALIDATION_SUCCESS
     });
+    onSuccess();
   }
 
   useEffect(function () {
