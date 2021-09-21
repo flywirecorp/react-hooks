@@ -36,11 +36,12 @@ function useValidate(
     if (errors) {
       dispatch({ type: actionTypes.VALIDATION_ERROR, errors });
       onError(errors);
-      return;
+      return false;
     }
 
     dispatch({ type: actionTypes.VALIDATION_SUCCESS });
     onSuccess();
+    return true;
   }
 
   useEffect(() => {
