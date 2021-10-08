@@ -1,4 +1,4 @@
-import { validate } from './validate';
+import validate from './validate';
 
 describe('validate', () => {
   describe('length', () => {
@@ -31,7 +31,9 @@ describe('validate', () => {
   });
 
   describe('presence', () => {
-    const constraints = { test: { presence: { message: '^is required' } } };
+    const constraints = {
+      test: { presence: { message: '^is required', allowEmpty: false } },
+    };
 
     test('returns an error when field is blank', () => {
       const payload = { test: '' };

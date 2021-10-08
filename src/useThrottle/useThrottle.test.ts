@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react-hooks';
-import { useThrottle } from './useThrottle';
+import { useThrottle } from '../index';
 
 describe('useThrottle', () => {
   let wallclock = 0;

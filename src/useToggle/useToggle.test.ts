@@ -18,13 +18,13 @@ describe('useToggle', () => {
 
   test('changes the state', () => {
     const { result } = renderHook(() => useToggle());
-    let [on, toggle] = result.current;
+    const [, toggle] = result.current;
 
     act(() => {
       toggle(true);
     });
 
-    [on] = result.current;
+    const [on] = result.current;
     expect(on).toBe(true);
   });
 });

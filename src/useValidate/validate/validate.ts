@@ -3,7 +3,7 @@ import XRegExp from 'xregexp';
 
 const dateRegExp = /^\d{2}\/\d{2}\/\d{4}$/;
 
-function isValidDate(str) {
+function isValidDate(str: string) {
   const date = new Date(str);
   let day = date.getDate().toString();
   let month = (date.getMonth() + 1).toString();
@@ -16,7 +16,7 @@ function isValidDate(str) {
 }
 
 validate.extend(validate.validators.datetime, {
-  parse: function (value) {
+  parse: function (value: string) {
     if (!value) {
       return false;
     }
@@ -28,12 +28,15 @@ validate.extend(validate.validators.datetime, {
     return !isValidDate(value);
   },
 
-  format: function (value) {
+  format: function (value: string) {
     return value;
   },
 });
 
-validate.validators.customFormat = (value, options) => {
+validate.validators.customFormat = (
+  value: string,
+  options: { message?: string; pattern: string },
+) => {
   if (!value) {
     return;
   }
@@ -45,7 +48,8 @@ validate.validators.customFormat = (value, options) => {
       .replace(/\\A/i, '^')
       .replace(/\\Z/i, '$')
       .replace(/\(\?i\)/g, '');
-    const regExp = new XRegExp(patternStr, ignoreCase ? 'i' : undefined);
+
+    const regExp = XRegExp(patternStr, ignoreCase ? 'i' : undefined);
     const message = options.message || '^is invalid';
 
     if (regExp.test(value)) {
@@ -56,4 +60,4 @@ validate.validators.customFormat = (value, options) => {
   } catch (err) {}
 };
 
-export { validate };
+export default validate;
