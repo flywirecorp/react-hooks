@@ -14,11 +14,10 @@ npm i @flywire/react-hooks
 
 ## Development
 
-Install dependencies and peer dependencies:
+Install dependencies:
 
 ```javascript
 npm install
-npm install react react-dom lodash.isequal validate.js@0.11.1 xregexp --no-save
 ```
 
 ## Run tests

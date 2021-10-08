@@ -1,12 +1,26 @@
 import { useState } from 'react';
 
-function useFormState(initialValues = {}) {
-  const [state, setState] = useState({
+type FieldValue = string | boolean | null;
+type FieldValues = {
+  [key: string]: FieldValue;
+};
+
+type DirtyFields = {
+  [key: string]: boolean;
+};
+
+type FormState = {
+  values: FieldValues;
+  dirtyFields: DirtyFields;
+};
+
+function useFormState(initialValues: FieldValues = {}) {
+  const [state, setState] = useState<FormState>({
     values: initialValues,
     dirtyFields: {},
   });
 
-  function update(name, value) {
+  function update(name: string, value: FieldValue) {
     setState({
       ...state,
       values: { ...state.values, [name]: value },
@@ -14,7 +28,7 @@ function useFormState(initialValues = {}) {
     });
   }
 
-  function updateAll(newFields = {}) {
+  function updateAll(newFields: FieldValues = {}) {
     setState({
       ...state,
       values: { ...state.values, ...newFields },
@@ -23,7 +37,7 @@ function useFormState(initialValues = {}) {
         ...Object.keys(newFields).reduce((acc, item) => {
           acc[item] = true;
           return acc;
-        }, {}),
+        }, <DirtyFields>{}),
       },
     });
   }
@@ -35,4 +49,4 @@ function useFormState(initialValues = {}) {
   return { ...state, update, updateAll, reset };
 }
 
-export { useFormState };
+export default useFormState;

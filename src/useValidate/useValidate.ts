@@ -1,20 +1,49 @@
 import { useEffect, useReducer, useRef } from 'react';
-import { validate } from './validate';
+import validate from './validate';
 import isEqual from 'lodash.isEqual';
 
-const NOOP = () => {};
-export const actionTypes = {
-  VALIDATION_SUCCESS: 'VALIDATION_SUCCESS',
-  VALIDATION_ERROR: 'VALIDATION_ERROR',
+function noop() {
+  // do nothin
+}
+
+export enum actionTypes {
+  VALIDATION_SUCCESS = 'VALIDATION_SUCCESS',
+  VALIDATION_ERROR = 'VALIDATION_ERROR',
+}
+
+type Errors = {
+  [key: string]: string[];
 };
 
+type Data = {
+  [key: string]: string | boolean | null;
+};
+
+type Constraints = {
+  [key: string]: { [key: string]: unknown };
+};
+
+type Options = {
+  onError?: (errors: Errors) => void;
+  onSuccess?: () => void;
+};
+
+type State = {
+  errors: Errors;
+  isValid: boolean;
+};
+
+type Action =
+  | { type: actionTypes.VALIDATION_SUCCESS }
+  | { type: actionTypes.VALIDATION_ERROR; errors: Errors };
+
 function useValidate(
-  data = {},
-  constraints = {},
-  { onError = NOOP, onSuccess = NOOP } = {},
+  data: Data = {},
+  constraints: Constraints = {},
+  { onError = noop, onSuccess = noop }: Options = {},
 ) {
   const [state, dispatch] = useReducer(
-    (state, action) => {
+    (state: State, action: Action) => {
       switch (action.type) {
         case actionTypes.VALIDATION_SUCCESS:
           return { ...state, errors: {}, isValid: true };
@@ -52,7 +81,7 @@ function useValidate(
     perform();
   });
 
-  const previousInputs = useRef();
+  const previousInputs = useRef<[Data, Constraints]>();
 
   useEffect(() => {
     previousInputs.current = [data, constraints];
@@ -61,4 +90,4 @@ function useValidate(
   return { ...state, validate: perform };
 }
 
-export { useValidate };
+export default useValidate;

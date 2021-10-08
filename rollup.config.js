@@ -1,37 +1,34 @@
-import babel from '@rollup/plugin-babel';
-import resolve from '@rollup/plugin-node-resolve';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import typescript from '@rollup/plugin-typescript';
 import commonjs from '@rollup/plugin-commonjs';
+import babel from '@rollup/plugin-babel';
+import externals from 'rollup-plugin-node-externals';
+import del from 'rollup-plugin-delete';
 import pkg from './package.json';
 
-const GLOBALS = {
-  'lodash.isequal': 'isEqual',
-  react: 'React',
-  'react-dom': 'ReactDOM',
-  'validate.js': 'Validate.js',
-  xregexp: 'XRegExp',
-};
-
 export default {
-  input: 'src/index.js',
+  input: 'src/index.ts',
   output: [
     {
       file: pkg.main,
-      format: 'cjs',
-      globals: GLOBALS,
+      format: 'cjs'
     },
     {
       file: pkg.module,
-      format: 'es',
-      globals: GLOBALS,
+      format: 'es'
     },
   ],
   plugins: [
-    resolve(),
+    typescript(),
+    del({ targets: 'dist/*' }),
+    externals({ deps: true }),
+    nodeResolve({
+      extensions: ['.js', '.ts', '.tsx'],
+    }),
+    commonjs(),
     babel({
       babelHelpers: 'bundled',
       exclude: 'node_modules/**',
     }),
-    commonjs(),
   ],
-  external: ['lodash.isequal', 'react', 'react-dom', 'validate.js', 'xregexp'],
 };

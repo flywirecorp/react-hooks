@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-const useOnScroll = callback => {
+const useOnScroll = (callback: () => void) => {
   useEffect(() => {
     document.addEventListener('scroll', callback);
 
@@ -10,4 +10,4 @@ const useOnScroll = callback => {
   }, [callback]);
 };
 
-export { useOnScroll };
+export default useOnScroll;

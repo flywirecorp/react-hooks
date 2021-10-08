@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-function useThrottle(value, delay, wallclock = 0) {
+function useThrottle<T>(value: T, delay: number, wallclock = 0) {
   const lastTime = useRef(wallclock);
   const [nextValue, setNextValue] = useState(value);
 
@@ -15,4 +15,4 @@ function useThrottle(value, delay, wallclock = 0) {
   return nextValue;
 }
 
-export { useThrottle };
+export default useThrottle;
