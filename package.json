@@ -1,6 +1,6 @@
 {
   "name": "@flywire/react-hooks",
-  "version": "1.4.1",
+  "version": "2.0.0",
   "description": "A collection of Reacts hooks used in Flywire",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
