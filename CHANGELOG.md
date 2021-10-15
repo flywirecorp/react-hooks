@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2021-10-08
+
+### Added
+- Typescript
+
+### Changed
+- Updated dependencies
+- `useValidate` presence validator no longer rejects empty values per default. The option `allowEmpty` can be set to false to prevent passing them through.
+
 ## [1.3.3] - 2021-09-21
 
 ### Added

@@ -44,7 +44,9 @@ function App() {
   return (
     <form onSubmit={handleSubmit}>
       <input name="firstname" onChange={handleInputChange} />
-      {!values?.firstName && dirtyFields?.firstName && 'First name is required.'}
+      {!values?.firstName &&
+        dirtyFields?.firstName &&
+        'First name is required.'}
 
       <input type="submit" />
     </form>

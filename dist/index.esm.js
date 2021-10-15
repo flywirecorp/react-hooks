@@ -2,378 +2,185 @@ import { useState, useEffect, useCallback, useRef, useReducer } from 'react';
 import validate from 'validate.js';
 import XRegExp from 'xregexp';
 
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
-function ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object);
-
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object);
-    if (enumerableOnly) symbols = symbols.filter(function (sym) {
-      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-    });
-    keys.push.apply(keys, symbols);
-  }
-
-  return keys;
-}
-
-function _objectSpread2(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-
-    if (i % 2) {
-      ownKeys(Object(source), true).forEach(function (key) {
-        _defineProperty(target, key, source[key]);
-      });
-    } else if (Object.getOwnPropertyDescriptors) {
-      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-    } else {
-      ownKeys(Object(source)).forEach(function (key) {
-        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-      });
-    }
-  }
-
-  return target;
-}
-
-function _slicedToArray(arr, i) {
-  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
-}
-
-function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
-}
-
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-}
-
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
-
-function _iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
-}
-
-function _iterableToArrayLimit(arr, i) {
-  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
-  var _arr = [];
-  var _n = true;
-  var _d = false;
-  var _e = undefined;
-
-  try {
-    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value);
-
-      if (i && _arr.length === i) break;
-    }
-  } catch (err) {
-    _d = true;
-    _e = err;
-  } finally {
-    try {
-      if (!_n && _i["return"] != null) _i["return"]();
-    } finally {
-      if (_d) throw _e;
-    }
-  }
-
-  return _arr;
-}
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-}
-
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
-
-  return arr2;
-}
-
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
 function useDebounce(value, delay) {
-  var _useState = useState(value),
-      _useState2 = _slicedToArray(_useState, 2),
-      nextValue = _useState2[0],
-      setNextValue = _useState2[1];
-
-  useEffect(function () {
-    var timeoutId = setTimeout(function () {
-      setNextValue(value);
-    }, delay);
-    return function () {
-      clearTimeout(timeoutId);
-    };
-  }, [value, delay]);
-  return nextValue;
+    const [nextValue, setNextValue] = useState(value);
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            setNextValue(value);
+        }, delay);
+        return () => {
+            clearTimeout(timeoutId);
+        };
+    }, [value, delay]);
+    return nextValue;
 }
 
-function useFormState() {
-  var initialValues = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-  var _useState = useState({
-    values: initialValues,
-    dirtyFields: {}
-  }),
-      _useState2 = _slicedToArray(_useState, 2),
-      state = _useState2[0],
-      setState = _useState2[1];
-
-  function update(name, value) {
-    setState(_objectSpread2(_objectSpread2({}, state), {}, {
-      values: _objectSpread2(_objectSpread2({}, state.values), {}, _defineProperty({}, name, value)),
-      dirtyFields: _objectSpread2(_objectSpread2({}, state.dirtyFields), {}, _defineProperty({}, name, true))
-    }));
-  }
-
-  function updateAll() {
-    var newFields = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    setState(_objectSpread2(_objectSpread2({}, state), {}, {
-      values: _objectSpread2(_objectSpread2({}, state.values), newFields),
-      dirtyFields: _objectSpread2(_objectSpread2({}, state.dirtyFields), Object.keys(newFields).reduce(function (acc, item) {
-        acc[item] = true;
-        return acc;
-      }, {}))
-    }));
-  }
-
-  function reset() {
-    var values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialValues;
-    setState({
-      values: values,
-      dirtyFields: {}
+function useFormState(initialValues = {}) {
+    const [state, setState] = useState({
+        values: initialValues,
+        dirtyFields: {},
     });
-  }
-
-  return _objectSpread2(_objectSpread2({}, state), {}, {
-    update: update,
-    updateAll: updateAll,
-    reset: reset
-  });
+    function update(name, value) {
+        setState({
+            ...state,
+            values: { ...state.values, [name]: value },
+            dirtyFields: { ...state.dirtyFields, [name]: true },
+        });
+    }
+    function updateAll(newFields = {}) {
+        setState({
+            ...state,
+            values: { ...state.values, ...newFields },
+            dirtyFields: {
+                ...state.dirtyFields,
+                ...Object.keys(newFields).reduce((acc, item) => {
+                    acc[item] = true;
+                    return acc;
+                }, {}),
+            },
+        });
+    }
+    function reset(values = initialValues) {
+        setState({ values, dirtyFields: {} });
+    }
+    return { ...state, update, updateAll, reset };
 }
 
-var useOnClickOutside = function useOnClickOutside(ref, callback) {
-  var handler = useCallback(function (evt) {
-    var hasReferencedElement = ref && ref.current;
-    if (!hasReferencedElement) return;
-    var hasClickedOutside = !ref.current.contains(evt.target);
-    if (hasClickedOutside) callback();
-  }, [ref, callback]);
-  useEffect(function () {
-    document.addEventListener('click', handler);
-    return function () {
-      return document.removeEventListener('click', handler);
-    };
-  }, [handler]);
+const useOnClickOutside = (ref, callback) => {
+    const handler = useCallback(evt => {
+        if (ref && ref.current && !ref.current.contains(evt.target)) {
+            callback();
+        }
+    }, [ref, callback]);
+    useEffect(() => {
+        document.addEventListener('click', handler);
+        document.addEventListener('ontouchstart', handler);
+        return () => {
+            document.removeEventListener('click', handler);
+            document.removeEventListener('ontouchstart', handler);
+        };
+    }, [handler]);
 };
 
-var useOnScroll = function useOnScroll(callback) {
-  useEffect(function () {
-    document.addEventListener('scroll', callback);
-    return function () {
-      document.removeEventListener('scroll', callback);
-    };
-  }, [callback]);
+const useOnScroll = (callback) => {
+    useEffect(() => {
+        document.addEventListener('scroll', callback);
+        return () => {
+            document.removeEventListener('scroll', callback);
+        };
+    }, [callback]);
 };
 
-var FIRST_STEP = 0;
-
-function useStep(_ref) {
-  var steps = _ref.steps,
-      _ref$initialStep = _ref.initialStep,
-      initialStep = _ref$initialStep === void 0 ? FIRST_STEP : _ref$initialStep;
-
-  var _useState = useState([]),
-      _useState2 = _slicedToArray(_useState, 2),
-      completed = _useState2[0],
-      setCompleted = _useState2[1];
-
-  var _useState3 = useState(initialStep),
-      _useState4 = _slicedToArray(_useState3, 2),
-      index = _useState4[0],
-      setIndex = _useState4[1];
-
-  var step = steps[index];
-
-  var inRange = function inRange(index) {
-    if (typeof index === 'number') {
-      if (index < FIRST_STEP) return FIRST_STEP;
-      if (index >= steps.length) return steps.length - 1;
-      return index;
-    }
-
-    return steps.findIndex(function (step) {
-      return step.id === index;
-    }) || FIRST_STEP;
-  };
-
-  var go = function go(step) {
-    return setIndex(inRange(step));
-  };
-
-  var next = function next() {
-    return go(index + 1);
-  };
-
-  var prev = function prev() {
-    return go(index - 1);
-  };
-
-  var complete = function complete() {
-    var step = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : index;
-    return function () {
-      var index = inRange(step);
-      var id = steps[index].id;
-      setCompleted(_toConsumableArray(new Set([].concat(_toConsumableArray(completed), [id]))));
-    }();
-  };
-
-  var uncomplete = function uncomplete() {
-    var step = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : index;
-    return function () {
-      var index = inRange(step);
-      var stepId = steps[index].id;
-      setCompleted(completed.filter(function (id) {
-        return id !== stepId;
-      }));
-    }();
-  };
-
-  var reset = function reset() {
-    var step = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialStep;
-    setIndex(step);
-    setCompleted([]);
-  };
-
-  return {
-    complete: complete,
-    completed: completed,
-    index: index,
-    navigation: {
-      next: next,
-      prev: prev,
-      go: go
-    },
-    step: step,
-    uncomplete: uncomplete,
-    reset: reset
-  };
+const FIRST_STEP = 0;
+function useStep({ steps, initialStep = FIRST_STEP }) {
+    const [completed, setCompleted] = useState([]);
+    const [index, setIndex] = useState(initialStep);
+    const step = steps[index];
+    const inRange = (index) => {
+        if (typeof index === 'number') {
+            if (index < FIRST_STEP)
+                return FIRST_STEP;
+            if (index >= steps.length)
+                return steps.length - 1;
+            return index;
+        }
+        return steps.findIndex(step => step.id === index) || FIRST_STEP;
+    };
+    const go = (step) => setIndex(inRange(step));
+    const next = () => go(index + 1);
+    const prev = () => go(index - 1);
+    const complete = (step = index) => {
+        const index = inRange(step);
+        const id = steps[index].id;
+        setCompleted([...new Set([...completed, id])]);
+    };
+    const uncomplete = (step = index) => {
+        const index = inRange(step);
+        const stepId = steps[index].id;
+        setCompleted(completed.filter(id => id !== stepId));
+    };
+    const reset = (step = initialStep) => {
+        setIndex(step);
+        setCompleted([]);
+    };
+    return {
+        complete,
+        completed,
+        index,
+        navigation: { next, prev, go },
+        step,
+        uncomplete,
+        reset,
+    };
 }
 
-function useThrottle(value, delay) {
-  var wallclock = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-  var lastTime = useRef(wallclock);
-
-  var _useState = useState(value),
-      _useState2 = _slicedToArray(_useState, 2),
-      nextValue = _useState2[0],
-      setNextValue = _useState2[1];
-
-  useEffect(function () {
-    var now = Date.now();
-
-    if (now - lastTime.current >= delay) {
-      lastTime.current = now;
-      setNextValue(value);
-    }
-  }, [value, delay]);
-  return nextValue;
+function useThrottle(value, delay, wallclock = 0) {
+    const lastTime = useRef(wallclock);
+    const [nextValue, setNextValue] = useState(value);
+    useEffect(() => {
+        const now = Date.now();
+        if (now - lastTime.current >= delay) {
+            lastTime.current = now;
+            setNextValue(value);
+        }
+    }, [value, delay]);
+    return nextValue;
 }
 
-function useToggle() {
-  var initialState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-  return useReducer(function (state) {
-    return !state;
-  }, initialState);
+function useToggle(initialState = false) {
+    return useReducer(state => !state, initialState);
 }
 
-var dateRegExp = /^\d{2}\/\d{2}\/\d{4}$/;
-
+const dateRegExp = /^\d{2}\/\d{2}\/\d{4}$/;
 function isValidDate(str) {
-  var date = new Date(str);
-  var day = date.getDate().toString();
-  var month = (date.getMonth() + 1).toString();
-  var year = date.getFullYear().toString();
-  if (day.length === 1) day = '0' + day;
-  if (month.length === 1) month = '0' + month;
-  return "".concat(month, "/").concat(day, "/").concat(year) === str;
+    const date = new Date(str);
+    let day = date.getDate().toString();
+    let month = (date.getMonth() + 1).toString();
+    const year = date.getFullYear().toString();
+    if (day.length === 1)
+        day = '0' + day;
+    if (month.length === 1)
+        month = '0' + month;
+    return `${month}/${day}/${year}` === str;
 }
-
 validate.extend(validate.validators.datetime, {
-  parse: function parse(value) {
-    if (!value) {
-      return false;
-    }
-
-    if (!dateRegExp.test(value)) {
-      return true;
-    }
-
-    return !isValidDate(value);
-  },
-  format: function format(value) {
-    return value;
-  }
+    parse: function (value) {
+        if (!value) {
+            return false;
+        }
+        if (!dateRegExp.test(value)) {
+            return true;
+        }
+        return !isValidDate(value);
+    },
+    format: function (value) {
+        return value;
+    },
 });
-
-validate.validators.customFormat = function (value, options) {
-  if (!value) {
-    return;
-  }
-
-  try {
-    var pattern = options.pattern;
-    var ignoreCase = pattern.includes('(?i)');
-    var patternStr = pattern.replace(/\\A/i, '^').replace(/\\Z/i, '$').replace(/\(\?i\)/g, '');
-    var regExp = new XRegExp(patternStr, ignoreCase ? 'i' : undefined);
-    var message = options.message || '^is invalid';
-
-    if (regExp.test(value)) {
-      return;
+validate.validators.customFormat = (value, options) => {
+    if (!value) {
+        return;
     }
-
-    return message;
-  } catch (err) {}
+    try {
+        const { pattern } = options;
+        const ignoreCase = pattern.includes('(?i)');
+        const patternStr = pattern
+            .replace(/\\A/i, '^')
+            .replace(/\\Z/i, '$')
+            .replace(/\(\?i\)/g, '');
+        const regExp = XRegExp(patternStr, ignoreCase ? 'i' : undefined);
+        const message = options.message || '^is invalid';
+        if (regExp.test(value)) {
+            return;
+        }
+        return message;
+    }
+    catch (err) { }
 };
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
-function createCommonjsModule(fn) {
-  var module = { exports: {} };
-	return fn(module, module.exports), module.exports;
-}
+var lodash_isequal = {exports: {}};
 
 /**
  * Lodash (Custom Build) <https://lodash.com/>
@@ -384,7 +191,7 @@ function createCommonjsModule(fn) {
  * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
  */
 
-var lodash_isequal = createCommonjsModule(function (module, exports) {
+(function (module, exports) {
 /** Used as the size to enable large array optimizations. */
 var LARGE_ARRAY_SIZE = 200;
 
@@ -470,7 +277,7 @@ var freeSelf = typeof self == 'object' && self && self.Object === Object && self
 var root = freeGlobal || freeSelf || Function('return this')();
 
 /** Detect free variable `exports`. */
-var freeExports =  exports && !exports.nodeType && exports;
+var freeExports = exports && !exports.nodeType && exports;
 
 /** Detect free variable `module`. */
 var freeModule = freeExports && 'object' == 'object' && module && !module.nodeType && module;
@@ -2224,82 +2031,54 @@ function stubFalse() {
 }
 
 module.exports = isEqual;
-});
+}(lodash_isequal, lodash_isequal.exports));
 
-var NOOP = function NOOP() {};
+var isEqual = lodash_isequal.exports;
 
-var actionTypes = {
-  VALIDATION_SUCCESS: 'VALIDATION_SUCCESS',
-  VALIDATION_ERROR: 'VALIDATION_ERROR'
-};
-
-function useValidate() {
-  var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var constraints = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-  var _ref = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
-      _ref$onError = _ref.onError,
-      onError = _ref$onError === void 0 ? NOOP : _ref$onError,
-      _ref$onSuccess = _ref.onSuccess,
-      onSuccess = _ref$onSuccess === void 0 ? NOOP : _ref$onSuccess;
-
-  var _useReducer = useReducer(function (state, action) {
-    switch (action.type) {
-      case actionTypes.VALIDATION_SUCCESS:
-        return _objectSpread2(_objectSpread2({}, state), {}, {
-          errors: {},
-          isValid: true
-        });
-
-      case actionTypes.VALIDATION_ERROR:
-        return _objectSpread2(_objectSpread2({}, state), {}, {
-          errors: action.errors,
-          isValid: false
-        });
-
-      default:
-        return state;
-    }
-  }, {
-    errors: {},
-    isValid: false
-  }),
-      _useReducer2 = _slicedToArray(_useReducer, 2),
-      state = _useReducer2[0],
-      dispatch = _useReducer2[1];
-
-  function perform() {
-    var errors = validate.validate(data, constraints);
-
-    if (errors) {
-      dispatch({
-        type: actionTypes.VALIDATION_ERROR,
-        errors: errors
-      });
-      onError(errors);
-      return;
-    }
-
-    dispatch({
-      type: actionTypes.VALIDATION_SUCCESS
+function noop() {
+    // do nothin
+}
+var actionTypes;
+(function (actionTypes) {
+    actionTypes["VALIDATION_SUCCESS"] = "VALIDATION_SUCCESS";
+    actionTypes["VALIDATION_ERROR"] = "VALIDATION_ERROR";
+})(actionTypes || (actionTypes = {}));
+function useValidate(data = {}, constraints = {}, { onError = noop, onSuccess = noop } = {}) {
+    const [state, dispatch] = useReducer((state, action) => {
+        switch (action.type) {
+            case actionTypes.VALIDATION_SUCCESS:
+                return { ...state, errors: {}, isValid: true };
+            case actionTypes.VALIDATION_ERROR:
+                return { ...state, errors: action.errors, isValid: false };
+            default:
+                return state;
+        }
+    }, {
+        errors: {},
+        isValid: false,
     });
-    onSuccess();
-  }
-
-  useEffect(function () {
-    if (lodash_isequal(previousInputs.current, [data, constraints])) {
-      return;
+    function perform() {
+        const errors = validate.validate(data, constraints);
+        if (errors) {
+            dispatch({ type: actionTypes.VALIDATION_ERROR, errors });
+            onError(errors);
+            return false;
+        }
+        dispatch({ type: actionTypes.VALIDATION_SUCCESS });
+        onSuccess();
+        return true;
     }
-
-    perform();
-  });
-  var previousInputs = useRef();
-  useEffect(function () {
-    previousInputs.current = [data, constraints];
-  });
-  return _objectSpread2(_objectSpread2({}, state), {}, {
-    validate: perform
-  });
+    useEffect(() => {
+        if (isEqual(previousInputs.current, [data, constraints])) {
+            return;
+        }
+        perform();
+    });
+    const previousInputs = useRef();
+    useEffect(() => {
+        previousInputs.current = [data, constraints];
+    });
+    return { ...state, validate: perform };
 }
 
-export { actionTypes, useDebounce, useFormState, useOnClickOutside, useOnScroll, useStep, useThrottle, useToggle, useValidate };
+export { useDebounce, useFormState, useOnClickOutside, useOnScroll, useStep, useThrottle, useToggle, useValidate };
