@@ -30,8 +30,12 @@ function useStep({ steps, initialStep = FIRST_STEP }: StepProps) {
   const prev = () => go(index - 1);
 
   const complete = (step: number | string = index) => {
+    console.log('steps', steps);
+    console.log('step', step);
     const index = inRange(step);
+    console.log('index', index);
     const id = steps[index].id;
+    console.log('id', id);
 
     setCompleted([...new Set([...completed, id])]);
   };
