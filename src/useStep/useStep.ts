@@ -13,7 +13,7 @@ type StepProps = {
 
 function useStep({ steps, initialStep = FIRST_STEP }: StepProps) {
   const [completed, setCompleted] = useState<string[]>([]);
-  const [index, setIndex] = useState(initialStep);
+  const [index, setIndex] = useState<number>(initialStep);
   const step = steps[index];
   const inRange = (index: number | string) => {
     if (typeof index === 'number') {
@@ -25,26 +25,26 @@ function useStep({ steps, initialStep = FIRST_STEP }: StepProps) {
     return steps.findIndex(step => step.id === index) || FIRST_STEP;
   };
 
-  const go = (step: number | string) => setIndex(inRange(step));
+  const go = (nextStep: number | string) => setIndex(inRange(nextStep));
   const next = () => go(index + 1);
   const prev = () => go(index - 1);
 
-  const complete = (step: number | string = index) => {
-    const index = inRange(step);
-    const id = steps[index].id;
+  const complete = (completeStep: number | string = index) => {
+    const completeStepIndex = inRange(completeStep);
+    const id = steps[completeStepIndex].id;
 
     setCompleted([...new Set([...completed, id])]);
   };
 
-  const uncomplete = (step: number | string = index) => {
-    const index = inRange(step);
-    const stepId = steps[index].id;
+  const uncomplete = (uncompleteStep: number | string = index) => {
+    const uncompleteStepIndex = inRange(uncompleteStep);
+    const stepId = steps[uncompleteStepIndex].id;
 
     setCompleted(completed.filter(id => id !== stepId));
   };
 
-  const reset = (step = initialStep) => {
-    setIndex(step);
+  const reset = (resetStep = initialStep) => {
+    setIndex(resetStep);
     setCompleted([]);
   };
 
