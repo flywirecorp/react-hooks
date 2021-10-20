@@ -99,8 +99,12 @@ function useStep({ steps, initialStep = FIRST_STEP }) {
     const next = () => go(index + 1);
     const prev = () => go(index - 1);
     const complete = (step = index) => {
+        console.log('steps', steps);
+        console.log('step', step);
         const index = inRange(step);
+        console.log('index', index);
         const id = steps[index].id;
+        console.log('id', id);
         setCompleted([...new Set([...completed, id])]);
     };
     const uncomplete = (step = index) => {
