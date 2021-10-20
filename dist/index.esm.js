@@ -86,21 +86,21 @@ function useStep({ steps, initialStep = FIRST_STEP }) {
         }
         return steps.findIndex(step => step.id === index) || FIRST_STEP;
     };
-    const go = (step) => setIndex(inRange(step));
+    const go = (nextStep) => setIndex(inRange(nextStep));
     const next = () => go(index + 1);
     const prev = () => go(index - 1);
-    const complete = (step = index) => {
-        const index = inRange(step);
-        const id = steps[index].id;
+    const complete = (completeStep = index) => {
+        const completeStepIndex = inRange(completeStep);
+        const id = steps[completeStepIndex].id;
         setCompleted([...new Set([...completed, id])]);
     };
-    const uncomplete = (step = index) => {
-        const index = inRange(step);
-        const stepId = steps[index].id;
+    const uncomplete = (uncompleteStep = index) => {
+        const uncompleteStepIndex = inRange(uncompleteStep);
+        const stepId = steps[uncompleteStepIndex].id;
         setCompleted(completed.filter(id => id !== stepId));
     };
-    const reset = (step = initialStep) => {
-        setIndex(step);
+    const reset = (resetStep = initialStep) => {
+        setIndex(resetStep);
         setCompleted([]);
     };
     return {
