@@ -6,16 +6,16 @@ declare type StepProps = {
     initialStep?: number;
 };
 declare function useStep({ steps, initialStep }: StepProps): {
-    complete: (step?: number | string) => void;
+    complete: (completeStep?: number | string) => void;
     completed: string[];
     index: number;
     navigation: {
         next: () => void;
         prev: () => void;
-        go: (step: number | string) => void;
+        go: (nextStep: number | string) => void;
     };
     step: Step;
-    uncomplete: (step?: number | string) => void;
-    reset: (step?: number) => void;
+    uncomplete: (uncompleteStep?: number | string) => void;
+    reset: (resetStep?: number) => void;
 };
 export default useStep;
