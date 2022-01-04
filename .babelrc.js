@@ -3,7 +3,7 @@ module.exports = {
     [
       "@babel/preset-env",
       {
-        "targets": ">0.2%, not dead, not op_mini all"
+        "targets": "> 1%, last 2 versions, Android >= 4, ie >= 10, ios >= 7"
       }
     ],
     "@babel/preset-react",
