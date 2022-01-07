@@ -1,16 +1,13 @@
 module.exports = {
-  "presets": [
+  presets: [
     [
-      "@babel/preset-env",
+      '@babel/preset-env',
       {
-        "targets": ">0.2%, not dead, not op_mini all"
-      }
+        targets: '> 1%, last 2 versions, ie >= 10, Android >= 4, ios >= 7',
+      },
     ],
-    "@babel/preset-react",
-    "@babel/preset-typescript"
+    '@babel/preset-react',
+    '@babel/preset-typescript',
   ],
-  "plugins": [
-    "@babel/plugin-transform-runtime"
-  ]
-}
-
+  plugins: ['@babel/plugin-transform-runtime'],
+};
