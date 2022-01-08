@@ -11,11 +11,11 @@ export default {
   output: [
     {
       file: pkg.main,
-      format: 'cjs'
+      format: 'cjs',
     },
     {
       file: pkg.module,
-      format: 'es'
+      format: 'es',
     },
   ],
   plugins: [
@@ -25,11 +25,13 @@ export default {
     nodeResolve({
       extensions: ['.js', '.ts', '.tsx'],
     }),
-    commonjs(),
+    commonjs({
+      include: 'node_modules/**',
+    }),
     babel({
-      babelHelpers: "runtime",
-      exclude: 'node_modules/**',
-      extensions: [".ts", ".tsx"],
+      extensions: ['.ts', '.tsx'],
+      exclude: /^(.+\/)?node_modules\/.+$/,
+      babelHelpers: 'runtime',
     }),
   ],
 };
