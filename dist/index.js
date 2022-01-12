@@ -2090,8 +2090,34 @@ function useValidate(data = {}, constraints = {}, { onError = noop, onSuccess = 
     return { ...state, validate: perform };
 }
 
+function useLocalStorageState(key, defaultValue = '', { serialize = JSON.stringify, deserialize = JSON.parse } = {}) {
+    const [state, setState] = react.useState(() => {
+        const valueInLocalStorage = window.localStorage.getItem(key);
+        if (valueInLocalStorage) {
+            try {
+                return deserialize(valueInLocalStorage);
+            }
+            catch {
+                window.localStorage.removeItem(key);
+            }
+        }
+        return typeof defaultValue === 'function' ? defaultValue() : defaultValue;
+    });
+    const prevKeyRef = react.useRef(key);
+    react.useEffect(() => {
+        const prevKey = prevKeyRef.current;
+        if (prevKey !== key) {
+            window.localStorage.removeItem(prevKey);
+        }
+        prevKeyRef.current = key;
+        window.localStorage.setItem(key, serialize(state));
+    }, [key, state, serialize]);
+    return [state, setState];
+}
+
 exports.useDebounce = useDebounce;
 exports.useFormState = useFormState;
+exports.useLocalStorageState = useLocalStorageState;
 exports.useOnClickOutside = useOnClickOutside;
 exports.useOnScroll = useOnScroll;
 exports.useStep = useStep;
