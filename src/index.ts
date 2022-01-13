@@ -6,3 +6,4 @@ export { default as useStep } from './useStep';
 export { default as useThrottle } from './useThrottle';
 export { default as useToggle } from './useToggle';
 export { default as useValidate } from './useValidate';
+export { default as useLocalStorageState } from './useLocalStorageState';

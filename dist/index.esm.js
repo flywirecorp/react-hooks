@@ -2081,4 +2081,29 @@ function useValidate(data = {}, constraints = {}, { onError = noop, onSuccess = 
     return { ...state, validate: perform };
 }
 
-export { useDebounce, useFormState, useOnClickOutside, useOnScroll, useStep, useThrottle, useToggle, useValidate };
+function useLocalStorageState(key, defaultValue = '', { serialize = JSON.stringify, deserialize = JSON.parse } = {}) {
+    const [state, setState] = useState(() => {
+        const valueInLocalStorage = window.localStorage.getItem(key);
+        if (valueInLocalStorage) {
+            try {
+                return deserialize(valueInLocalStorage);
+            }
+            catch {
+                window.localStorage.removeItem(key);
+            }
+        }
+        return typeof defaultValue === 'function' ? defaultValue() : defaultValue;
+    });
+    const prevKeyRef = useRef(key);
+    useEffect(() => {
+        const prevKey = prevKeyRef.current;
+        if (prevKey !== key) {
+            window.localStorage.removeItem(prevKey);
+        }
+        prevKeyRef.current = key;
+        window.localStorage.setItem(key, serialize(state));
+    }, [key, state, serialize]);
+    return [state, setState];
+}
+
+export { useDebounce, useFormState, useLocalStorageState, useOnClickOutside, useOnScroll, useStep, useThrottle, useToggle, useValidate };
