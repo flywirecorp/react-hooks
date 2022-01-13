@@ -11,11 +11,11 @@ export default {
   output: [
     {
       file: pkg.main,
-      format: 'cjs'
+      format: 'cjs',
     },
     {
       file: pkg.module,
-      format: 'es'
+      format: 'es',
     },
   ],
   plugins: [
@@ -27,8 +27,9 @@ export default {
     }),
     commonjs(),
     babel({
-      babelHelpers: 'bundled',
+      extensions: ['.ts', '.tsx'],
       exclude: 'node_modules/**',
+      babelHelpers: 'runtime',
     }),
   ],
 };
