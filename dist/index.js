@@ -11,183 +11,452 @@ function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'defau
 var validate__default = /*#__PURE__*/_interopDefaultLegacy(validate);
 var XRegExp__default = /*#__PURE__*/_interopDefaultLegacy(XRegExp);
 
-function useDebounce(value, delay) {
-    const [nextValue, setNextValue] = react.useState(value);
-    react.useEffect(() => {
-        const timeoutId = setTimeout(() => {
-            setNextValue(value);
-        }, delay);
-        return () => {
-            clearTimeout(timeoutId);
-        };
-    }, [value, delay]);
-    return nextValue;
-}
-
-function useFormState(initialValues = {}) {
-    const [state, setState] = react.useState({
-        values: initialValues,
-        dirtyFields: {},
-    });
-    function update(name, value) {
-        setState({
-            ...state,
-            values: { ...state.values, [name]: value },
-            dirtyFields: { ...state.dirtyFields, [name]: true },
-        });
-    }
-    function updateAll(newFields = {}) {
-        setState({
-            ...state,
-            values: { ...state.values, ...newFields },
-            dirtyFields: {
-                ...state.dirtyFields,
-                ...Object.keys(newFields).reduce((acc, item) => {
-                    acc[item] = true;
-                    return acc;
-                }, {}),
-            },
-        });
-    }
-    function reset(values = initialValues) {
-        setState({ values, dirtyFields: {} });
-    }
-    return { ...state, update, updateAll, reset };
-}
-
-const useOnClickOutside = (ref, callback) => {
-    const handler = react.useCallback(evt => {
-        if (ref && ref.current && !ref.current.contains(evt.target)) {
-            callback();
-        }
-    }, [ref, callback]);
-    react.useEffect(() => {
-        document.addEventListener('click', handler);
-        document.addEventListener('ontouchstart', handler);
-        return () => {
-            document.removeEventListener('click', handler);
-            document.removeEventListener('ontouchstart', handler);
-        };
-    }, [handler]);
-};
-
-const useOnScroll = (callback) => {
-    react.useEffect(() => {
-        document.addEventListener('scroll', callback);
-        return () => {
-            document.removeEventListener('scroll', callback);
-        };
-    }, [callback]);
-};
-
-const FIRST_STEP = 0;
-function useStep({ steps, initialStep = FIRST_STEP }) {
-    const [completed, setCompleted] = react.useState([]);
-    const [index, setIndex] = react.useState(initialStep);
-    const step = steps[index];
-    const inRange = (index) => {
-        if (typeof index === 'number') {
-            if (index < FIRST_STEP)
-                return FIRST_STEP;
-            if (index >= steps.length)
-                return steps.length - 1;
-            return index;
-        }
-        return steps.findIndex(step => step.id === index) || FIRST_STEP;
-    };
-    const go = (nextStep) => setIndex(inRange(nextStep));
-    const next = () => go(index + 1);
-    const prev = () => go(index - 1);
-    const complete = (completeStep = index) => {
-        const completeStepIndex = inRange(completeStep);
-        const id = steps[completeStepIndex].id;
-        setCompleted([...new Set([...completed, id])]);
-    };
-    const uncomplete = (uncompleteStep = index) => {
-        const uncompleteStepIndex = inRange(uncompleteStep);
-        const stepId = steps[uncompleteStepIndex].id;
-        setCompleted(completed.filter(id => id !== stepId));
-    };
-    const reset = (resetStep = initialStep) => {
-        setIndex(resetStep);
-        setCompleted([]);
-    };
-    return {
-        complete,
-        completed,
-        index,
-        navigation: { next, prev, go },
-        step,
-        uncomplete,
-        reset,
-    };
-}
-
-function useThrottle(value, delay, wallclock = 0) {
-    const lastTime = react.useRef(wallclock);
-    const [nextValue, setNextValue] = react.useState(value);
-    react.useEffect(() => {
-        const now = Date.now();
-        if (now - lastTime.current >= delay) {
-            lastTime.current = now;
-            setNextValue(value);
-        }
-    }, [value, delay]);
-    return nextValue;
-}
-
-function useToggle(initialState = false) {
-    return react.useReducer(state => !state, initialState);
-}
-
-const dateRegExp = /^\d{2}\/\d{2}\/\d{4}$/;
-function isValidDate(str) {
-    const date = new Date(str);
-    let day = date.getDate().toString();
-    let month = (date.getMonth() + 1).toString();
-    const year = date.getFullYear().toString();
-    if (day.length === 1)
-        day = '0' + day;
-    if (month.length === 1)
-        month = '0' + month;
-    return `${month}/${day}/${year}` === str;
-}
-validate__default["default"].extend(validate__default["default"].validators.datetime, {
-    parse: function (value) {
-        if (!value) {
-            return false;
-        }
-        if (!dateRegExp.test(value)) {
-            return true;
-        }
-        return !isValidDate(value);
-    },
-    format: function (value) {
-        return value;
-    },
-});
-validate__default["default"].validators.customFormat = (value, options) => {
-    if (!value) {
-        return;
-    }
-    try {
-        const { pattern } = options;
-        const ignoreCase = pattern.includes('(?i)');
-        const patternStr = pattern
-            .replace(/\\A/i, '^')
-            .replace(/\\Z/i, '$')
-            .replace(/\(\?i\)/g, '');
-        const regExp = XRegExp__default["default"](patternStr, ignoreCase ? 'i' : undefined);
-        const message = options.message || '^is invalid';
-        if (regExp.test(value)) {
-            return;
-        }
-        return message;
-    }
-    catch (err) { }
-};
-
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
+function getDefaultExportFromCjs (x) {
+	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
+}
+
+var slicedToArray = {exports: {}};
+
+var arrayWithHoles = {exports: {}};
+
+(function (module) {
+function _arrayWithHoles(arr) {
+  if (Array.isArray(arr)) return arr;
+}
+
+module.exports = _arrayWithHoles;
+module.exports["default"] = module.exports, module.exports.__esModule = true;
+}(arrayWithHoles));
+
+var iterableToArrayLimit = {exports: {}};
+
+(function (module) {
+function _iterableToArrayLimit(arr, i) {
+  var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
+
+  if (_i == null) return;
+  var _arr = [];
+  var _n = true;
+  var _d = false;
+
+  var _s, _e;
+
+  try {
+    for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
+      _arr.push(_s.value);
+
+      if (i && _arr.length === i) break;
+    }
+  } catch (err) {
+    _d = true;
+    _e = err;
+  } finally {
+    try {
+      if (!_n && _i["return"] != null) _i["return"]();
+    } finally {
+      if (_d) throw _e;
+    }
+  }
+
+  return _arr;
+}
+
+module.exports = _iterableToArrayLimit;
+module.exports["default"] = module.exports, module.exports.__esModule = true;
+}(iterableToArrayLimit));
+
+var unsupportedIterableToArray = {exports: {}};
+
+var arrayLikeToArray = {exports: {}};
+
+(function (module) {
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+
+  for (var i = 0, arr2 = new Array(len); i < len; i++) {
+    arr2[i] = arr[i];
+  }
+
+  return arr2;
+}
+
+module.exports = _arrayLikeToArray;
+module.exports["default"] = module.exports, module.exports.__esModule = true;
+}(arrayLikeToArray));
+
+(function (module) {
+var arrayLikeToArray$1 = arrayLikeToArray.exports;
+
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return arrayLikeToArray$1(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return arrayLikeToArray$1(o, minLen);
+}
+
+module.exports = _unsupportedIterableToArray;
+module.exports["default"] = module.exports, module.exports.__esModule = true;
+}(unsupportedIterableToArray));
+
+var nonIterableRest = {exports: {}};
+
+(function (module) {
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+
+module.exports = _nonIterableRest;
+module.exports["default"] = module.exports, module.exports.__esModule = true;
+}(nonIterableRest));
+
+(function (module) {
+var arrayWithHoles$1 = arrayWithHoles.exports;
+
+var iterableToArrayLimit$1 = iterableToArrayLimit.exports;
+
+var unsupportedIterableToArray$1 = unsupportedIterableToArray.exports;
+
+var nonIterableRest$1 = nonIterableRest.exports;
+
+function _slicedToArray(arr, i) {
+  return arrayWithHoles$1(arr) || iterableToArrayLimit$1(arr, i) || unsupportedIterableToArray$1(arr, i) || nonIterableRest$1();
+}
+
+module.exports = _slicedToArray;
+module.exports["default"] = module.exports, module.exports.__esModule = true;
+}(slicedToArray));
+
+var _slicedToArray = /*@__PURE__*/getDefaultExportFromCjs(slicedToArray.exports);
+
+function useDebounce(value, delay) {
+  var _useState = react.useState(value),
+      _useState2 = _slicedToArray(_useState, 2),
+      nextValue = _useState2[0],
+      setNextValue = _useState2[1];
+
+  react.useEffect(function () {
+    var timeoutId = setTimeout(function () {
+      setNextValue(value);
+    }, delay);
+    return function () {
+      clearTimeout(timeoutId);
+    };
+  }, [value, delay]);
+  return nextValue;
+}
+
+var defineProperty = {exports: {}};
+
+(function (module) {
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+module.exports = _defineProperty;
+module.exports["default"] = module.exports, module.exports.__esModule = true;
+}(defineProperty));
+
+var _defineProperty = /*@__PURE__*/getDefaultExportFromCjs(defineProperty.exports);
+
+function ownKeys$1(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread$1(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$1(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$1(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function useFormState() {
+  var initialValues = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+  var _useState = react.useState({
+    values: initialValues,
+    dirtyFields: {}
+  }),
+      _useState2 = _slicedToArray(_useState, 2),
+      state = _useState2[0],
+      setState = _useState2[1];
+
+  function update(name, value) {
+    setState(_objectSpread$1(_objectSpread$1({}, state), {}, {
+      values: _objectSpread$1(_objectSpread$1({}, state.values), {}, _defineProperty({}, name, value)),
+      dirtyFields: _objectSpread$1(_objectSpread$1({}, state.dirtyFields), {}, _defineProperty({}, name, true))
+    }));
+  }
+
+  function updateAll() {
+    var newFields = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    setState(_objectSpread$1(_objectSpread$1({}, state), {}, {
+      values: _objectSpread$1(_objectSpread$1({}, state.values), newFields),
+      dirtyFields: _objectSpread$1(_objectSpread$1({}, state.dirtyFields), Object.keys(newFields).reduce(function (acc, item) {
+        acc[item] = true;
+        return acc;
+      }, {}))
+    }));
+  }
+
+  function reset() {
+    var values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialValues;
+    setState({
+      values: values,
+      dirtyFields: {}
+    });
+  }
+
+  return _objectSpread$1(_objectSpread$1({}, state), {}, {
+    update: update,
+    updateAll: updateAll,
+    reset: reset
+  });
+}
+
+var useOnClickOutside = function useOnClickOutside(ref, callback) {
+  var handler = react.useCallback(function (evt) {
+    if (ref && ref.current && !ref.current.contains(evt.target)) {
+      callback();
+    }
+  }, [ref, callback]);
+  react.useEffect(function () {
+    document.addEventListener('click', handler);
+    document.addEventListener('ontouchstart', handler);
+    return function () {
+      document.removeEventListener('click', handler);
+      document.removeEventListener('ontouchstart', handler);
+    };
+  }, [handler]);
+};
+
+var useOnScroll = function useOnScroll(callback) {
+  react.useEffect(function () {
+    document.addEventListener('scroll', callback);
+    return function () {
+      document.removeEventListener('scroll', callback);
+    };
+  }, [callback]);
+};
+
+var toConsumableArray = {exports: {}};
+
+var arrayWithoutHoles = {exports: {}};
+
+(function (module) {
+var arrayLikeToArray$1 = arrayLikeToArray.exports;
+
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) return arrayLikeToArray$1(arr);
+}
+
+module.exports = _arrayWithoutHoles;
+module.exports["default"] = module.exports, module.exports.__esModule = true;
+}(arrayWithoutHoles));
+
+var iterableToArray = {exports: {}};
+
+(function (module) {
+function _iterableToArray(iter) {
+  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
+}
+
+module.exports = _iterableToArray;
+module.exports["default"] = module.exports, module.exports.__esModule = true;
+}(iterableToArray));
+
+var nonIterableSpread = {exports: {}};
+
+(function (module) {
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+
+module.exports = _nonIterableSpread;
+module.exports["default"] = module.exports, module.exports.__esModule = true;
+}(nonIterableSpread));
+
+(function (module) {
+var arrayWithoutHoles$1 = arrayWithoutHoles.exports;
+
+var iterableToArray$1 = iterableToArray.exports;
+
+var unsupportedIterableToArray$1 = unsupportedIterableToArray.exports;
+
+var nonIterableSpread$1 = nonIterableSpread.exports;
+
+function _toConsumableArray(arr) {
+  return arrayWithoutHoles$1(arr) || iterableToArray$1(arr) || unsupportedIterableToArray$1(arr) || nonIterableSpread$1();
+}
+
+module.exports = _toConsumableArray;
+module.exports["default"] = module.exports, module.exports.__esModule = true;
+}(toConsumableArray));
+
+var _toConsumableArray = /*@__PURE__*/getDefaultExportFromCjs(toConsumableArray.exports);
+
+var FIRST_STEP = 0;
+
+function useStep(_ref) {
+  var steps = _ref.steps,
+      _ref$initialStep = _ref.initialStep,
+      initialStep = _ref$initialStep === void 0 ? FIRST_STEP : _ref$initialStep;
+
+  var _useState = react.useState([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      completed = _useState2[0],
+      setCompleted = _useState2[1];
+
+  var _useState3 = react.useState(initialStep),
+      _useState4 = _slicedToArray(_useState3, 2),
+      index = _useState4[0],
+      setIndex = _useState4[1];
+
+  var step = steps[index];
+
+  var inRange = function inRange(index) {
+    if (typeof index === 'number') {
+      if (index < FIRST_STEP) return FIRST_STEP;
+      if (index >= steps.length) return steps.length - 1;
+      return index;
+    }
+
+    return steps.findIndex(function (step) {
+      return step.id === index;
+    }) || FIRST_STEP;
+  };
+
+  var go = function go(nextStep) {
+    return setIndex(inRange(nextStep));
+  };
+
+  var next = function next() {
+    return go(index + 1);
+  };
+
+  var prev = function prev() {
+    return go(index - 1);
+  };
+
+  var complete = function complete() {
+    var completeStep = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : index;
+    var completeStepIndex = inRange(completeStep);
+    var id = steps[completeStepIndex].id;
+    setCompleted(_toConsumableArray(new Set([].concat(_toConsumableArray(completed), [id]))));
+  };
+
+  var uncomplete = function uncomplete() {
+    var uncompleteStep = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : index;
+    var uncompleteStepIndex = inRange(uncompleteStep);
+    var stepId = steps[uncompleteStepIndex].id;
+    setCompleted(completed.filter(function (id) {
+      return id !== stepId;
+    }));
+  };
+
+  var reset = function reset() {
+    var resetStep = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialStep;
+    setIndex(resetStep);
+    setCompleted([]);
+  };
+
+  return {
+    complete: complete,
+    completed: completed,
+    index: index,
+    navigation: {
+      next: next,
+      prev: prev,
+      go: go
+    },
+    step: step,
+    uncomplete: uncomplete,
+    reset: reset
+  };
+}
+
+function useThrottle(value, delay) {
+  var wallclock = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+  var lastTime = react.useRef(wallclock);
+
+  var _useState = react.useState(value),
+      _useState2 = _slicedToArray(_useState, 2),
+      nextValue = _useState2[0],
+      setNextValue = _useState2[1];
+
+  react.useEffect(function () {
+    var now = Date.now();
+
+    if (now - lastTime.current >= delay) {
+      lastTime.current = now;
+      setNextValue(value);
+    }
+  }, [value, delay]);
+  return nextValue;
+}
+
+function useToggle() {
+  var initialState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+  return react.useReducer(function (state) {
+    return !state;
+  }, initialState);
+}
+
+var dateRegExp = /^\d{2}\/\d{2}\/\d{4}$/;
+
+function isValidDate(str) {
+  var date = new Date(str);
+  var day = date.getDate().toString();
+  var month = (date.getMonth() + 1).toString();
+  var year = date.getFullYear().toString();
+  if (day.length === 1) day = '0' + day;
+  if (month.length === 1) month = '0' + month;
+  return "".concat(month, "/").concat(day, "/").concat(year) === str;
+}
+
+validate__default["default"].extend(validate__default["default"].validators.datetime, {
+  parse: function parse(value) {
+    if (!value) {
+      return false;
+    }
+
+    if (!dateRegExp.test(value)) {
+      return true;
+    }
+
+    return !isValidDate(value);
+  },
+  format: function format(value) {
+    return value;
+  }
+});
+
+validate__default["default"].validators.customFormat = function (value, options) {
+  if (!value) {
+    return;
+  }
+
+  try {
+    var pattern = options.pattern;
+    var ignoreCase = pattern.includes('(?i)');
+    var patternStr = pattern.replace(/\\A/i, '^').replace(/\\Z/i, '$').replace(/\(\?i\)/g, '');
+    var regExp = XRegExp__default["default"](patternStr, ignoreCase ? 'i' : undefined);
+    var message = options.message || '^is invalid';
+
+    if (regExp.test(value)) {
+      return;
+    }
+
+    return message;
+  } catch (err) {}
+};
 
 var lodash_isequal = {exports: {}};
 
@@ -2044,75 +2313,128 @@ module.exports = isEqual;
 
 var isEqual = lodash_isequal.exports;
 
-function noop() {
-    // do nothin
-}
-var actionTypes;
-(function (actionTypes) {
-    actionTypes["VALIDATION_SUCCESS"] = "VALIDATION_SUCCESS";
-    actionTypes["VALIDATION_ERROR"] = "VALIDATION_ERROR";
-})(actionTypes || (actionTypes = {}));
-function useValidate(data = {}, constraints = {}, { onError = noop, onSuccess = noop } = {}) {
-    const [state, dispatch] = react.useReducer((state, action) => {
-        switch (action.type) {
-            case actionTypes.VALIDATION_SUCCESS:
-                return { ...state, errors: {}, isValid: true };
-            case actionTypes.VALIDATION_ERROR:
-                return { ...state, errors: action.errors, isValid: false };
-            default:
-                return state;
-        }
-    }, {
-        errors: {},
-        isValid: false,
-    });
-    function perform() {
-        const errors = validate__default["default"].validate(data, constraints);
-        if (errors) {
-            dispatch({ type: actionTypes.VALIDATION_ERROR, errors });
-            onError(errors);
-            return false;
-        }
-        dispatch({ type: actionTypes.VALIDATION_SUCCESS });
-        onSuccess();
-        return true;
-    }
-    react.useEffect(() => {
-        if (isEqual(previousInputs.current, [data, constraints])) {
-            return;
-        }
-        perform();
-    });
-    const previousInputs = react.useRef();
-    react.useEffect(() => {
-        previousInputs.current = [data, constraints];
-    });
-    return { ...state, validate: perform };
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function noop() {// do nothin
 }
 
-function useLocalStorageState(key, defaultValue = '', { serialize = JSON.stringify, deserialize = JSON.parse } = {}) {
-    const [state, setState] = react.useState(() => {
-        const valueInLocalStorage = window.localStorage.getItem(key);
-        if (valueInLocalStorage) {
-            try {
-                return deserialize(valueInLocalStorage);
-            }
-            catch {
-                window.localStorage.removeItem(key);
-            }
-        }
-        return typeof defaultValue === 'function' ? defaultValue() : defaultValue;
+var actionTypes;
+
+(function (actionTypes) {
+  actionTypes["VALIDATION_SUCCESS"] = "VALIDATION_SUCCESS";
+  actionTypes["VALIDATION_ERROR"] = "VALIDATION_ERROR";
+})(actionTypes || (actionTypes = {}));
+
+function useValidate() {
+  var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var constraints = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  var _ref = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
+      _ref$onError = _ref.onError,
+      onError = _ref$onError === void 0 ? noop : _ref$onError,
+      _ref$onSuccess = _ref.onSuccess,
+      onSuccess = _ref$onSuccess === void 0 ? noop : _ref$onSuccess;
+
+  var _useReducer = react.useReducer(function (state, action) {
+    switch (action.type) {
+      case actionTypes.VALIDATION_SUCCESS:
+        return _objectSpread(_objectSpread({}, state), {}, {
+          errors: {},
+          isValid: true
+        });
+
+      case actionTypes.VALIDATION_ERROR:
+        return _objectSpread(_objectSpread({}, state), {}, {
+          errors: action.errors,
+          isValid: false
+        });
+
+      default:
+        return state;
+    }
+  }, {
+    errors: {},
+    isValid: false
+  }),
+      _useReducer2 = _slicedToArray(_useReducer, 2),
+      state = _useReducer2[0],
+      dispatch = _useReducer2[1];
+
+  function perform() {
+    var errors = validate__default["default"].validate(data, constraints);
+
+    if (errors) {
+      dispatch({
+        type: actionTypes.VALIDATION_ERROR,
+        errors: errors
+      });
+      onError(errors);
+      return false;
+    }
+
+    dispatch({
+      type: actionTypes.VALIDATION_SUCCESS
     });
-    const prevKeyRef = react.useRef(key);
-    react.useEffect(() => {
-        const prevKey = prevKeyRef.current;
-        if (prevKey !== key) {
-            window.localStorage.removeItem(prevKey);
-        }
-        prevKeyRef.current = key;
-        window.localStorage.setItem(key, serialize(state));
-    }, [key, state, serialize]);
-    return [state, setState];
+    onSuccess();
+    return true;
+  }
+
+  react.useEffect(function () {
+    if (isEqual(previousInputs.current, [data, constraints])) {
+      return;
+    }
+
+    perform();
+  });
+  var previousInputs = react.useRef();
+  react.useEffect(function () {
+    previousInputs.current = [data, constraints];
+  });
+  return _objectSpread(_objectSpread({}, state), {}, {
+    validate: perform
+  });
+}
+
+function useLocalStorageState(key) {
+  var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+
+  var _ref = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
+      _ref$serialize = _ref.serialize,
+      serialize = _ref$serialize === void 0 ? JSON.stringify : _ref$serialize,
+      _ref$deserialize = _ref.deserialize,
+      deserialize = _ref$deserialize === void 0 ? JSON.parse : _ref$deserialize;
+
+  var _useState = react.useState(function () {
+    var valueInLocalStorage = window.localStorage.getItem(key);
+
+    if (valueInLocalStorage) {
+      try {
+        return deserialize(valueInLocalStorage);
+      } catch (_unused) {
+        window.localStorage.removeItem(key);
+      }
+    }
+
+    return typeof defaultValue === 'function' ? defaultValue() : defaultValue;
+  }),
+      _useState2 = _slicedToArray(_useState, 2),
+      state = _useState2[0],
+      setState = _useState2[1];
+
+  var prevKeyRef = react.useRef(key);
+  react.useEffect(function () {
+    var prevKey = prevKeyRef.current;
+
+    if (prevKey !== key) {
+      window.localStorage.removeItem(prevKey);
+    }
+
+    prevKeyRef.current = key;
+    window.localStorage.setItem(key, serialize(state));
+  }, [key, state, serialize]);
+  return [state, setState];
 }
 
 exports.useDebounce = useDebounce;
