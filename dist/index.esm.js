@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef, useReducer } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef, useReducer } from 'react';
 import validate from 'validate.js';
 import XRegExp from 'xregexp';
 
@@ -210,6 +210,112 @@ function useFormState() {
     updateAll: updateAll,
     reset: reset
   });
+}
+
+var ONE_SECOND_IN_MS = 1000;
+var THIRTY_MINUTES_IN_MS = 30 * 60 * 1000;
+
+function useIdleTimer() {
+  var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+      _ref$events = _ref.events,
+      events = _ref$events === void 0 ? ['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll'] : _ref$events,
+      _ref$interval = _ref.interval,
+      interval = _ref$interval === void 0 ? ONE_SECOND_IN_MS : _ref$interval,
+      _ref$timeout = _ref.timeout,
+      timeout = _ref$timeout === void 0 ? THIRTY_MINUTES_IN_MS : _ref$timeout;
+
+  var _useState = useState(timeout),
+      _useState2 = _slicedToArray(_useState, 2),
+      timeleft = _useState2[0],
+      setTimeleft = _useState2[1];
+
+  var _useState3 = useState(false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      idle = _useState4[0],
+      setIdle = _useState4[1];
+
+  var tick = function tick() {
+    if (idle) {
+      return;
+    }
+
+    var remaining = timeleft - interval;
+    setTimeleft(remaining <= 0 ? 0 : remaining);
+    setIdle(remaining <= 0);
+  };
+
+  var reset = useCallback(function () {
+    if (idle) {
+      return;
+    }
+
+    setTimeleft(timeout);
+    setIdle(false);
+  }, [timeout, idle]);
+  useEffect(function () {
+    if (timeout <= 0) {
+      return;
+    }
+
+    events.forEach(function (evt) {
+      return window.addEventListener(evt, reset);
+    });
+    var countdown = setInterval(tick, interval);
+    return function () {
+      events.forEach(function (evt) {
+        return window.removeEventListener(evt, reset);
+      });
+      clearInterval(countdown);
+    };
+  });
+  var stateAndHelpers = useMemo(function () {
+    return {
+      idle: idle,
+      reset: reset,
+      timeleft: timeleft
+    };
+  }, [idle, reset, timeleft]);
+  return stateAndHelpers;
+}
+
+function useLocalStorageState(key) {
+  var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+
+  var _ref = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
+      _ref$serialize = _ref.serialize,
+      serialize = _ref$serialize === void 0 ? JSON.stringify : _ref$serialize,
+      _ref$deserialize = _ref.deserialize,
+      deserialize = _ref$deserialize === void 0 ? JSON.parse : _ref$deserialize;
+
+  var _useState = useState(function () {
+    var valueInLocalStorage = window.localStorage.getItem(key);
+
+    if (valueInLocalStorage) {
+      try {
+        return deserialize(valueInLocalStorage);
+      } catch (_unused) {
+        window.localStorage.removeItem(key);
+      }
+    }
+
+    return typeof defaultValue === 'function' ? defaultValue() : defaultValue;
+  }),
+      _useState2 = _slicedToArray(_useState, 2),
+      state = _useState2[0],
+      setState = _useState2[1];
+
+  var prevKeyRef = useRef(key);
+  useEffect(function () {
+    var prevKey = prevKeyRef.current;
+
+    if (prevKey !== key) {
+      window.localStorage.removeItem(prevKey);
+    }
+
+    prevKeyRef.current = key;
+    window.localStorage.setItem(key, serialize(state));
+  }, [key, state, serialize]);
+  return [state, setState];
 }
 
 var useOnClickOutside = function useOnClickOutside(ref, callback) {
@@ -2388,44 +2494,4 @@ function useValidate() {
   });
 }
 
-function useLocalStorageState(key) {
-  var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-
-  var _ref = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
-      _ref$serialize = _ref.serialize,
-      serialize = _ref$serialize === void 0 ? JSON.stringify : _ref$serialize,
-      _ref$deserialize = _ref.deserialize,
-      deserialize = _ref$deserialize === void 0 ? JSON.parse : _ref$deserialize;
-
-  var _useState = useState(function () {
-    var valueInLocalStorage = window.localStorage.getItem(key);
-
-    if (valueInLocalStorage) {
-      try {
-        return deserialize(valueInLocalStorage);
-      } catch (_unused) {
-        window.localStorage.removeItem(key);
-      }
-    }
-
-    return typeof defaultValue === 'function' ? defaultValue() : defaultValue;
-  }),
-      _useState2 = _slicedToArray(_useState, 2),
-      state = _useState2[0],
-      setState = _useState2[1];
-
-  var prevKeyRef = useRef(key);
-  useEffect(function () {
-    var prevKey = prevKeyRef.current;
-
-    if (prevKey !== key) {
-      window.localStorage.removeItem(prevKey);
-    }
-
-    prevKeyRef.current = key;
-    window.localStorage.setItem(key, serialize(state));
-  }, [key, state, serialize]);
-  return [state, setState];
-}
-
-export { useDebounce, useFormState, useLocalStorageState, useOnClickOutside, useOnScroll, useStep, useThrottle, useToggle, useValidate };
+export { useDebounce, useFormState, useIdleTimer, useLocalStorageState, useOnClickOutside, useOnScroll, useStep, useThrottle, useToggle, useValidate };

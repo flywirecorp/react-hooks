@@ -1,6 +1,6 @@
 {
   "name": "@flywire/react-hooks",
-  "version": "2.3.1",
+  "version": "2.4.0",
   "description": "A collection of Reacts hooks used in Flywire",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -76,7 +76,7 @@
   "peerDependencies": {
     "lodash.isequal": ">=4.5.0",
     "react": ">=16.8.0",
-    "react-dom": ">=^16.8.0",
+    "react-dom": ">=16.8.0",
     "validate.js": ">=0.13.1",
     "xregexp": ">=5.1.0"
   },
