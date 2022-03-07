@@ -76,7 +76,7 @@
   "peerDependencies": {
     "lodash.isequal": ">=4.5.0",
     "react": ">=16.8.0",
-    "react-dom": ">=^16.8.0",
+    "react-dom": ">=16.8.0",
     "validate.js": ">=0.13.1",
     "xregexp": ">=5.1.0"
   },

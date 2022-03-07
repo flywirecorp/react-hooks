@@ -30,6 +30,7 @@ npm run test
 
 - [useDebounce](src/useDebounce/README.md)
 - [useFormState](src/useFormState/README.md)
+- [useIdleTimer](src/useIdleTimer/README.md)
 - [useOnClickOutside](src/useOnClickOutside/README.md)
 - [useOnScroll](src/useOnScroll/README.md)
 - [useStep](src/useStep/README.md)
