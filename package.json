@@ -13,6 +13,7 @@
     "build:js": "rollup -c",
     "build:types": "tsc -p tsconfig.build.json",
     "check:format": "npm run prettier -- --list-different",
+    "check:types": "tsc",
     "format": "prettier --write ./src",
     "lint": "eslint ./src",
     "prebuild": "npm run validate && npm run test:once",
@@ -20,7 +21,7 @@
     "test": "jest --watchAll",
     "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand --watchAll",
     "test:once": "jest",
-    "validate": "npm run check:format && npm run lint",
+    "validate": "npm run check:types && npm run check:format && npm run lint",
     "version": "npm run build && git add -A && git push && git push --tags"
   },
   "license": "MIT",

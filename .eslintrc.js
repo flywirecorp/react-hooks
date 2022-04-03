@@ -22,7 +22,8 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'warn',
     'no-empty': 'off',
     'react/prop-types': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off'
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    "@typescript-eslint/no-explicit-any": "off",
   },
   plugins: ['react-hooks'],
   env: {

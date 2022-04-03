@@ -1,13 +1,8 @@
 import { useState } from 'react';
 
-type FieldValue = string | boolean | null;
-type FieldValues = {
-  [key: string]: FieldValue;
-};
-
-type DirtyFields = {
-  [key: string]: boolean;
-};
+type FieldValue = string | number | boolean | null | undefined;
+type FieldValues = Record<string, any>;
+type DirtyFields = Record<string, boolean>;
 
 type FormState = {
   values: FieldValues;
